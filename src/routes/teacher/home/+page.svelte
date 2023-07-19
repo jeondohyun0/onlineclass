@@ -1,3 +1,21 @@
+<div class="container">
+    <header class="text-head">나의 클래스</header>
+    <hr>
+    <div class="content">
+        <a href="/teacher/classroom/class">
+            <div class="box-class">
+                <div class="box-sub"></div>
+            </div>
+        </a>
+        <a href="/teacher/classplus" style="text-decoration: none;">
+            <div class="box-plusclass">
+                <img src="/home/plus.png" alt="plus" id="plus" style="height: 60px;">
+                <div class="text-plusclass">새로운 수업 채널을 추가하세요</div>
+            </div>
+        </a>
+    </div>
+    <img src="/home/account.png" alt="account" id="account" style="height: 120px">
+</div>
 <style>
     .container {
         margin: auto;
@@ -15,7 +33,6 @@
         height: 150px;
         width: 500px;
         margin: auto;
-        margin-top: 30px;
     }
     .box-sub {
         background-color: #32BBE7;
@@ -39,25 +56,7 @@
         padding-top: 40px;
     }
     #account {
-        padding-left: 83%;
-        padding-top: 15%;
+        margin: 83%;
+        margin-top: 15%;
     }
 </style>
-<div class="container">
-    <header class="text-head">나의 클래스</header>
-<hr>
-<div class="content">
-    <a href="/home/classroom/class">
-        <div class="box-class">
-            <div class="box-sub"></div>
-        </div>
-    </a>
-    <a href="/home/classplus" style="text-decoration: none;">
-        <div class="box-plusclass">
-            <img src="/home/plus.png" alt="plus" id="plus" style="height: 60px;">
-            <div class="text-plusclass">새로운 수업 채널을 추가하세요</div>
-        </div>
-    </a>
-</div>
-<img src="/home/account.png" alt="account" id="account" style="height: 120px">
-</div>

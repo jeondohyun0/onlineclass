@@ -1,0 +1,62 @@
+<style>
+    .container {
+        margin: auto;
+        width: 600px;
+        height: 630px;
+    }
+    .text-head {
+        font-weight: 600;
+        padding: 20px;
+        padding-left: 10px;
+    }
+    .box-class {
+        background-color: #F5F5F5;
+        border-radius: 30px;
+        height: 150px;
+        width: 500px;
+        margin: auto;
+    }
+    .box-sub {
+        background-color: #32BBE7;
+        border-radius: 30px;
+        height: 110px;
+    }
+    .box-plusclass {
+        background-color: #F5F5F5;
+        border-radius: 30px;
+        height: 150px;
+        width: 500px;
+        text-align: center;
+        margin: auto;
+        margin-top: 30px;
+    }
+    .text-plusclass {
+        color: #202A8A;
+        font-size: 10px;
+    }
+    #plus {
+        padding-top: 40px;
+    }
+    #account {
+        margin: 83%;
+        margin-top: 15%;
+    }
+</style>
+<div class="container">
+    <header class="text-head">나의 클래스</header>
+    <hr>
+    <div class="content">
+        <a href="/student/classroom/class">
+            <div class="box-class">
+                <div class="box-sub"></div>
+            </div>
+        </a>
+        <a href="/student/classplus" style="text-decoration: none;">
+            <div class="box-plusclass">
+                <img src="/home/plus.png" alt="plus" id="plus" style="height: 60px;">
+                <div class="text-plusclass">새로운 수업 채널을 추가하세요</div>
+            </div>
+        </a>
+    </div>
+    <img src="/home/account.png" alt="account" id="account" style="height: 120px">
+</div>
