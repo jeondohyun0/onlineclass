@@ -14,7 +14,7 @@
     {#each Homework.homework as {rdate, sdate, book, range}}
     <div class="content-homework">
         <div>등록일 | {rdate}</div>
-        <div>제출기한 | {sdate}</div>
+        <div>제출일 | {sdate}</div>
         <div>교재 | {book}</div>
         <div>범위 | {range}</div>
         <button class="sub">

@@ -4,8 +4,9 @@
     const plus = () => {
         index = index+1;
     }
+
 </script>
-<div class="container-chatting">
+<div class="container-chatting" id="container-chatting">
     {#each Chat.chat.slice(0, index) as {content, time}}
     <div class="container-message">
         <div class="content-time">
@@ -20,7 +21,7 @@
 <div class="box-chat">
     <img src="/classroom/chat/plus.png" id="plus" alt="plus">
     <input type="text">
-    <button on:click={plus}>
+    <button on:click={plus} id="plus">
         <img src="/classroom/chat/send.png" id="send" alt="send">
     </button>
 </div>

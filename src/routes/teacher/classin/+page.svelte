@@ -1,8 +1,42 @@
-<script>
+<script lang="ts">
     import Information from '$lib/asset/information.json'
-    let index=0
+    const inform = Information.information
+    
+    interface informationin {
+        DATE?: string;
+        BOOK?: string;
+        TIME?: string;
+        INDEX?: number;
+    }
+
+    let informationin: informationin[] = [];
+
+    let num = 0;
+    let state = false;
+    const informations = () => {
+        let DATE = inform[num].date;
+        let BOOK = inform[num].book;
+        let TIME = inform[num].time;
+        let INDEX = inform[num].index;
+
+        return {
+            DATE,
+            BOOK,
+            TIME,
+            INDEX
+        }
+    }
+    const pluscontent = () => {
+        state = true
+    }
     const plus = () => {
-        index = index+1;
+        state = false;
+        num = num + 1
+        console.log(informationin)
+        return informationin = [...informationin, informations()]
+    }
+    const delcontent = () => {
+        state = false
     }
 </script>
 <div class="container">
@@ -11,18 +45,38 @@
             <img src="/classin/before.png" alt="before"style="height: 30px; margin: 10px 5px"/>
         </a>
     </div>
-    <button on:click={plus} class="plus-in">
-        <img src="/classin/plus.png" class="plus" alt="plus">
-        <div class="information">일정 추가하기</div>
-    </button>
     <div class="container-date">
-        {#each Information.information.slice(0, index) as {date, book, time}, i}
+        <button class="plus-in" on:click={pluscontent}>
+            <img src="/classin/plus.png" class="plus" alt="plus">
+            <div class="information">일정 추가하기</div>
+        </button>
+        {#if state}
+        <div class="pluscontent">
+            <div class="button-head">
+                <button class="button-before" on:click={delcontent}>취소</button>
+                <button class="button-sure" on:click={plus}>저장</button>
+            </div>
+            <div class="date">
+                <div class="text-date">날짜</div>
+                <input class="bar-date" type="date">
+            </div>
+            <div class="book">
+                <div class="text-book">교재</div>
+                <input class="bar-book" type="text">
+            </div>
+            <div class="time">
+                <div class="text-time">시간</div>
+                <input class="bar-time" type="text">
+            </div>
+        </div>
+        {/if}
+        {#each informationin as {DATE, BOOK, TIME}}
         <div class="content-classinformation">
-            <div class="left-information">{date}</div>
+            <div class="left-information">{DATE}</div>
             <div class="length"></div>
             <div class="right-information">
-                <div>교재 {book}</div>
-                <div>시간 {time}</div>
+                <div>교재 {BOOK}</div>
+                <div>시간 {TIME}</div>
             </div>
             <button class="del-in">
                 <div>삭제</div>
@@ -45,6 +99,7 @@
     }
     .plus {
         height: 35px;
+        margin-top: 5px;
     }
     .information {
         color: #836666;
@@ -52,7 +107,7 @@
         margin-top: 3px;
     }
     .plus-in {
-        height: 70px;
+        height: 63px;
         width: 100px;
         border-radius: 10px;
         border: #D9D9D9;
@@ -97,7 +152,7 @@
     .container-date {
         display: flex;
         flex-direction: column;
-        height: 450px;
+        height: 580px;
         overflow: auto;
         width: 600px;
         margin: auto;
@@ -105,5 +160,39 @@
     }
     .container-date::-webkit-scrollbar {
         display: none;
+    }
+    .pluscontent {
+        background-color: #f7f5f5;
+        width: 310px;
+        margin: auto;
+        border-radius: 10px;
+        padding: 5px;
+        margin-bottom: 289px;
+    }
+    input {
+        width: 300px;
+        border: 1px solid #000000;
+        outline: none;
+    }
+    .button-before {
+        background-color: #e4d8d8;
+        width: 42px;
+        text-align: center;
+        border: none;
+        font-size: 15px;
+    }
+    .button-sure {
+        background-color: #e4d8d8;
+        width: 42px;
+        text-align: center;
+        border: none;
+        margin: 1px;
+        font-size: 15px;
+    }
+    .button-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding:5px;
     }
 </style>

@@ -34,7 +34,7 @@
     .container {
         margin: auto;
         width: 600px;
-        height: 630px;;
+        height: 630px;
     }
     .box-head {
         background-color: #32bbe7;

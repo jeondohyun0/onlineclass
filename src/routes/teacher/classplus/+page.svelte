@@ -1,19 +1,55 @@
-<script>
-    import Homework from '$lib/asset/homework.json'
-    const inform = Homework.homework
-
-    
-
-</script>
-
-<div>
-    {inform[1].rdate}
-</div>
-{#each inform as {rdate, sdate, book, range}}
-    <div class="content-homework">
-        <div>등록일 | {rdate}</div>
-        <div>제출기한 | {sdate}</div>
-        <div>교재 | {book}</div>
-        <div>범위 | {range}</div>
+<div class="container">
+    <div class="box-head">
+        <a href="/teacher/home">
+            <img src="/classplus/before.png" alt="before"style="height: 30px; margin: 10px 5px"/>
+        </a>
     </div>
-{/each}
+    <div class="container-classcode">
+        <div class="text-input">수업 채널 코드 입력하기</div>
+        <div class="text-code">
+            <input type="text" minlength="7" maxlength="12" placeholder="수업 채널 코드 7 ~ 12자리">
+        </div>
+        <div class="text-code">
+            <input type="text" minlength="7" maxlength="12" placeholder="수업 채널 코드 7 ~ 12자리 확인">
+        </div>
+        <a href="/teacher/home">
+            <button>확인</button>
+        </a>
+    </div>
+</div>
+<style>
+    .container {
+        margin: auto;
+        width: 600px;
+        height: 630px;
+    }
+    .box-head {
+        background-color: #32bbe7;
+        width: 600px;
+        height: 50px;
+    }
+    .container-classcode {
+        display: flex;
+        margin: 50px auto;
+        flex-direction: column;
+        justify-content: center;
+        width: 400px;
+    }
+    .text-input {
+        color: #836666;
+    }
+    input {
+        width: 393px;
+        height: 30px;
+        margin-top: 30px;
+        font-size: 15px;
+    }
+    button {
+        background-color: #32bbe7;
+        color: #ffffff;
+        margin-top: 30px;
+        width: 400px;
+        height: 30px;
+        border: none;
+    }
+</style>
