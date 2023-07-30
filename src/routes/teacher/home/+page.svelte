@@ -22,6 +22,9 @@
         width: 600px;
         height: 630px;
     }
+    .content {
+        margin-top: 30px;
+    }
     .text-head {
         font-weight: 600;
         padding: 20px;
@@ -56,7 +59,7 @@
         padding-top: 40px;
     }
     #account {
-        margin: 83%;
-        margin-top: 15%;
+        margin-top: 50px;
+        float: right;
     }
 </style>

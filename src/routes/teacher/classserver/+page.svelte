@@ -1,12 +1,48 @@
 <script>
-    
+    let mstate = true;
+    let pstate = false;
+    let estate = false;
+    let sstate = false;
+
+    const mike = () => {
+        mstate = !mstate;
+    }
+
+    const pen = () => {
+        pstate = !pstate;
+    }
+
+    const eraser = () => {
+        estate = !estate;
+    }
+
+    const sharing = () => {
+        sstate = !sstate;
+    }
+
 </script>
 <div class="container">
     <div class="button-head">
-        <img src="/classserver/mike.png" alt="mike">
-        <img src="/classserver/pen.png" alt="pen">
-        <img src="/classserver/eraser.png" alt="eraser">
-        <img src="/classserver/sharing.png" alt="sharing">
+        {#if mstate}
+        <img src="/classserver/mikeon.png" on:click={mike} alt="mike">
+        {:else}
+        <img src="/classserver/mikeoff.png" on:click={mike} alt="mike">
+        {/if}
+        {#if pstate}
+        <img src="/classserver/penon.png" on:click={pen} alt="pen">
+        {:else}
+        <img src="/classserver/penoff.png" on:click={pen} alt="pen">
+        {/if}
+        {#if estate}
+        <img src="/classserver/eraseron.png" on:click={eraser} alt="eraser">
+        {:else}
+        <img src="/classserver/eraseroff.png" on:click={eraser} alt="eraser">
+        {/if}
+        {#if sstate}
+        <img src="/classserver/sharingon.png" on:click={sharing} alt="sharing">
+        {:else}
+        <img src="/classserver/sharingoff.png" on:click={sharing} alt="sharing">
+        {/if}
         <a href="/teacher/classroom/class">
             <img src="/classserver/exit.png" id="exit" alt="exit">
         </a>

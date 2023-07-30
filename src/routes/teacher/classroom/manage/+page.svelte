@@ -35,7 +35,6 @@
     const plus = () => {
         state = false;
         num = num + 1
-        console.log(homeworkin)
         return homeworkin = [...homeworkin, homeworks()]
     }
     const cancel = () => {

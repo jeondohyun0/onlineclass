@@ -1,18 +1,53 @@
-<script>
+<script lang="ts">
     import Chat from '$lib/asset/chat.json'
-    let index=0
-    const plus = () => {
-        index = index+1;
+    import { afterUpdate} from 'svelte';
+
+    const inform = Chat.chat
+
+    interface chatting {
+        CONTENT?: string;
+        TIME?: string;
     }
+
+    let chatin: chatting[] = [];
+
+    let element:HTMLDivElement;
+    afterUpdate(() => {
+		if(chatin) scrollToBottom(element);
+    });
+    $: if(chatin && element) {
+        scrollToBottom(element);
+    }
+    const scrollToBottom = async (node:HTMLDivElement) => {
+    node.scroll({ top: node.scrollHeight, behavior: 'smooth' });
+    }; 
+
+    let num = 0
+
+    const chats = () => {
+        let CONTENT = inform[num].content;
+        let TIME = inform[num].time;
+
+        return {
+            CONTENT,
+            TIME
+        }
+    }
+
+    const plus = () => {
+        num = num + 1;
+        return chatin = [...chatin, chats()]
+    }
+
 </script>
-<div class="container-chatting">
-    {#each Chat.chat.slice(0, index) as {content, time}}
+<div bind:this={element} class="container-chatting">
+    {#each chatin as {CONTENT, TIME}}
     <div class="container-message">
         <div class="content-time">
-            <div class="time">{time}</div>
+            <div class="time">{TIME}</div>
         </div>    
         <div class="content-chat">
-                <div class="message">{content}</div>
+                <div class="message">{CONTENT}</div>
         </div>
     </div>
     {/each}
