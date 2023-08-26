@@ -1,6 +1,6 @@
 <script lang="ts">
     import Chat from '$lib/asset/chat.json'
-    import { afterUpdate} from 'svelte';
+    import { afterUpdate } from 'svelte';
 
     const inform = Chat.chat
 
@@ -67,7 +67,7 @@
         box-sizing: border-box;
         background-color: #F5F5F5;
         border-radius: 20px;
-        width: 550px;
+        width: 470px;
         height: 40px;
         padding:5px;
         gap:10px;
@@ -95,7 +95,7 @@
         flex-direction: column;
         height: 490px;
         overflow: auto;
-        width: 580px;
+        width: 500px;
         margin: auto;
     }
     .container-chatting::-webkit-scrollbar {

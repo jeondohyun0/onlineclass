@@ -17,12 +17,12 @@
 <style>
     .container {
         margin: auto;
-        width: 600px;
+        width: 520px;
         height: 630px;
     }
     .box-head {
         background-color: #32bbe7;
-        width: 600px;
+        width: 520px;
         height: 50px;
     }
     .container-classcode {
@@ -30,13 +30,13 @@
         margin: 50px auto;
         flex-direction: column;
         justify-content: center;
-        width: 400px;
+        width: 320px;
     }
     .text-input {
         color: #836666;
     }
     input {
-        width: 393px;
+        width: 313px;
         height: 30px;
         margin-top: 30px;
         font-size: 15px;
@@ -45,7 +45,7 @@
         background-color: #32bbe7;
         color: #ffffff;
         margin-top: 30px;
-        width: 400px;
+        width: 320px;
         height: 30px;
         border: none;
     }

@@ -30,7 +30,7 @@
         justify-content: space-between;
         box-sizing: border-box;
         background-color: #32bbe7;
-        width: 600px;
+        width: 520px;
         height: 30px;
         padding:5px;
         border: 1px solid #b6a0a0;
@@ -44,7 +44,7 @@
         justify-content: space-between;
         box-sizing: border-box;
         background-color: #32bbe7;
-        width: 600px;
+        width: 520px;
         height: 30px;
         padding:5px;
         border: 1px solid #b6a0a0;
@@ -57,7 +57,7 @@
         margin-top: 4px;
     }
     .content-homework {
-        width: 580px;
+        width: 500px;
         border-radius: 10px;
         height: 100px;
         display: flex;
@@ -75,7 +75,7 @@
         flex-direction: column;
         height: 437px;
         overflow: auto;
-        width: 600px;
+        width: 520px;
         margin: auto;
         align-items: center;
         margin: 40px auto;

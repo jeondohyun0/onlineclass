@@ -76,7 +76,11 @@
         </div>
         <div class="range">
             <div class="text-range">범위</div>
-            <input class="bar-range" type="text">
+            <div class="range-box">
+                <input class="bar-range-first" type="number" min="0">
+                ~
+                <input class="bar-range-second" type="number" min="0">
+            </div>
         </div>
     </div>
     {/if}
@@ -99,7 +103,7 @@
         justify-content: space-between;
         box-sizing: border-box;
         background-color: #32bbe7;
-        width: 600px;
+        width: 520px;
         height: 30px;
         padding:5px;
         border: 1px solid #b6a0a0;
@@ -113,7 +117,7 @@
         justify-content: space-between;
         box-sizing: border-box;
         background-color: #32bbe7;
-        width: 600px;
+        width: 520px;
         height: 30px;
         padding:5px;
         border: 1px solid #b6a0a0;
@@ -142,7 +146,7 @@
         margin-top: 3px;
     }
     .content-homework {
-        width: 580px;
+        width: 500px;
         border-radius: 10px;
         height: 100px;
         display: flex;
@@ -172,7 +176,7 @@
         flex-direction: column;
         height: 477px;
         overflow: auto;
-        width: 600px;
+        width: 520px;
         margin: auto;
         align-items: center;
     }
@@ -216,5 +220,15 @@
         align-items: center;
         justify-content: space-between;
         padding:5px;
+    }
+    .bar-range-first {
+        width: 130px;
+    }
+    .bar-range-second {
+        width: 130px;
+    }
+    .range-box {
+        width: 300px;
+        margin: auto;
     }
 </style>

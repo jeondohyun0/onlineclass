@@ -38,12 +38,12 @@
 <style>
     .container {
         margin: auto;
-        width: 600px;
+        width: 520px;
         height: 630px;
     }
     .box-head {
         background-color: #32bbe7;
-        width: 600px;
+        width: 520px;
         height: 50px;
     }
     table {
@@ -51,13 +51,13 @@
         color: #836666;
         border: 1px solid #b6a0a0;
         border-collapse: collapse;
-        width: 600px;
+        width: 520px;
         text-align: center;
     }
     table td {
         border: 1px solid #b6a0a0;
         padding: 10px 0;
-        width: 200px;
+        width: 120px;
     }
     .active{
         background-color: #E4DCDC;

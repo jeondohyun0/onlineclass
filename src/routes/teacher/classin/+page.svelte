@@ -32,7 +32,6 @@
     const plus = () => {
         state = false;
         num = num + 1
-        console.log(informationin)
         return informationin = [...informationin, informations()]
     }
     const delcontent = () => {
@@ -66,7 +65,11 @@
             </div>
             <div class="time">
                 <div class="text-time">시간</div>
-                <input class="bar-time" type="text">
+                <div class="time-box">
+                    <input class="bar-time-first" type="time">
+                    ~
+                    <input class="bar-time-second" type="time">
+                </div>
             </div>
         </div>
         {/if}
@@ -89,12 +92,12 @@
 <style>
     .container {
         margin: auto;
-        width: 600px;
+        width: 520px;
         height: 630px;
     }
     .box-head {
         background-color: #32bbe7;
-        width: 600px;
+        width: 520px;
         height: 50px;
     }
     .plus {
@@ -118,7 +121,7 @@
         align-items: center;
     }
     .content-classinformation {
-        width: 580px;
+        width: 500px;
         border-radius: 10px;
         height: 70px;
         display: flex;
@@ -154,7 +157,7 @@
         flex-direction: column;
         height: 580px;
         overflow: auto;
-        width: 600px;
+        width: 520px;
         margin: auto;
         align-items: center;
     }
@@ -194,5 +197,15 @@
         align-items: center;
         justify-content: space-between;
         padding:5px;
+    }
+    .bar-time-first {
+        width: 130px;
+    }
+    .bar-time-second {
+        width: 130px;
+    }
+    .time-box {
+        width: 300px;
+        margin: auto;
     }
 </style>

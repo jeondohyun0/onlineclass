@@ -23,12 +23,12 @@
 <style>
     .container {
         margin: auto;
-        width: 600px;
+        width: 520px;
         height: 630px;
     }
     .box-head {
         background-color: #32bbe7;
-        width: 600px;
+        width: 520px;
         height: 50px;
     }
     .container-date {
@@ -36,7 +36,7 @@
         flex-direction: column;
         height: 550px;
         overflow: auto;
-        width: 600px;
+        width: 520px;
         margin: 30px auto;
         align-items: center;
     }
@@ -44,7 +44,7 @@
         display: none;
     }
     .content-classinformation {
-        width: 580px;
+        width: 500px;
         border-radius: 10px;
         height: 70px;
         display: flex;

@@ -19,7 +19,7 @@
 <style>
     .container {
         margin: auto;
-        width: 600px;
+        width: 520px;
         height: 630px;
     }
     .text-head {
@@ -28,14 +28,21 @@
         padding-left: 10px;
     }
     .content {
-        margin-top: 30px;
+        height: 360px;
+        overflow: auto;
+        width: 420px;
+        margin: auto;
+    }
+    .content::-webkit-scrollbar {
+        display: none;
     }
     .box-class {
         background-color: #F5F5F5;
         border-radius: 30px;
         height: 150px;
-        width: 500px;
+        width: 420px;
         margin: auto;
+        margin-top: 30px;
     }
     .box-sub {
         background-color: #32BBE7;
@@ -46,7 +53,7 @@
         background-color: #F5F5F5;
         border-radius: 30px;
         height: 150px;
-        width: 500px;
+        width: 420px;
         text-align: center;
         margin: auto;
         margin-top: 30px;

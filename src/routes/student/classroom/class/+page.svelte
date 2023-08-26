@@ -12,12 +12,19 @@
         text-align: center;
         padding: 7px 0;
     }
+    .box {
+        width: 300px;
+        margin: auto;
+    }
 </style>
-<a href="/student/classserver" style="text-decoration: none;">
-    <div class="box-enter">
-        <div class="text-enter">수업 채널 참가하기</div>
-    </div>
-</a>
+<div class="box">
+    <a href="/student/classserver" style="text-decoration: none;">
+        <div class="box-enter">
+            <div class="text-enter">수업 채널 참가하기</div>
+        </div>
+    </a>
+</div>
+
 
 
 

@@ -7,6 +7,7 @@
                 <div class="box-sub"></div>
             </div>
         </a>
+
         <a href="/teacher/classplus" style="text-decoration: none;">
             <div class="box-plusclass">
                 <img src="/home/plus.png" alt="plus" id="plus" style="height: 60px;">
@@ -19,11 +20,17 @@
 <style>
     .container {
         margin: auto;
-        width: 600px;
+        width: 520px;
         height: 630px;
     }
     .content {
-        margin-top: 30px;
+        height: 360px;
+        overflow: auto;
+        width: 420px;
+        margin: auto;
+    }
+    .content::-webkit-scrollbar {
+        display: none;
     }
     .text-head {
         font-weight: 600;
@@ -34,8 +41,9 @@
         background-color: #F5F5F5;
         border-radius: 30px;
         height: 150px;
-        width: 500px;
+        width: 420px;
         margin: auto;
+        margin-top: 30px;
     }
     .box-sub {
         background-color: #32BBE7;
@@ -46,7 +54,7 @@
         background-color: #F5F5F5;
         border-radius: 30px;
         height: 150px;
-        width: 500px;
+        width: 420px;
         text-align: center;
         margin: auto;
         margin-top: 30px;
