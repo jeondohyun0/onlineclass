@@ -21,6 +21,8 @@
 	"type": "module",
 	"dependencies": {
 		"@types/dom-mediacapture-transform": "^0.1.6",
-		"firebase": "^10.3.0"
+		"firebase": "^10.3.0",
+		"peerjs": "^1.4.7",
+		"svelte-routing": "^2.3.0"
 	}
 }

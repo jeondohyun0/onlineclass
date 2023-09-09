@@ -15,9 +15,18 @@
         FirebaseError
     } from 'firebase/app';
     import type { FirebaseOptions } from 'firebase/app';
-    import type { PageData } from './$types';
-    import { goto } from '$app/navigation';
-    export let data:PageData;
+    interface page {
+    firebaseConfig: {
+        apiKey: string,
+        authDomain: string,
+        projectId: string,
+        storageBucket: string,
+        messagingSenderId: string,
+        appId: string,
+        measurementId?: string
+    }
+}
+    export let data:page;
     const firebaseConfig = data.firebaseConfig;
     let curUser:User|null = null;
     onMount(() => {
@@ -46,7 +55,6 @@
             const credential = GoogleAuthProvider.credentialFromResult(result);
             const token = credential?.accessToken;
             const user = result.user;
-            goto('student/home')
             return { token , user};
         } catch(error){
             if(error instanceof FirebaseError){
@@ -63,7 +71,6 @@
                 console.log(error);
             }
         }
-        
     };
 
     const logout = async (firebaseConfig:FirebaseOptions) => {
@@ -74,48 +81,4 @@
         await auth.signOut();
     }
 </script>
-<div class="container">
-    <div class="head">로그인</div>
-    
-    {#if curUser}
-    <button on:click={async () => logout(firebaseConfig)}>
-        로그아웃
-    </button>
-        <div>{curUser.displayName}</div>
-        <div>{curUser.phoneNumber}</div>
-        <div>{curUser.email}</div>
-    {:else}
-    <button on:click={() => login(firebaseConfig)}>
-        로그인
-    </button>
-    {/if}
-</div>
-<style>
-    .container {
-        width: 520px;
-        height: 630px;
-        margin: auto;
-    }
-    .head {
-        color: #32BBE7;
-        margin: auto;
-        width: 120px;
-        font-size: 40px;
-        font-weight: 600;
-        margin: auto;
-        padding-top: 40px;
-    }
-    button {
-        background-color: #32BBE7;
-        width: 400px;
-        margin: auto;
-        height: 60px;
-        display: flex;
-        color: white;
-        border: none;
-        font-size: 18px;
-        margin-top: 50px;
-        align-items: center;
-        justify-content: center;
-    }
-</style>
+<slot/>

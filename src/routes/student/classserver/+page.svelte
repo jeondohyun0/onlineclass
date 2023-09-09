@@ -1,6 +1,27 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    let mstate = true;
+
+
+
+    import {Peer} from "peerjs"
+    const peer = new Peer('2468')
+    const conn = peer.connect('13579')
+    conn.on("open", () => {
+      conn.send('hi')
+    })
+    peer.on("connection", (conn) => {
+      conn.on("data", (data) => {
+        // Will print 'hi!'
+        console.log(data);
+      });
+      conn.on("open", () => {
+        conn.send("hello!");
+      });
+    });
+
+
+    
+    let mstate = 'off'; 
     let pstate = false;
     let estate = false;
     let sstate = "off";
@@ -9,46 +30,58 @@
     let canvas1: HTMLCanvasElement;
     let canvas2: HTMLCanvasElement;
     let ctx: CanvasRenderingContext2D | null = null;
-    let ctx2:CanvasRenderingContext2D | null = null;    //추가
+    let ctx2:CanvasRenderingContext2D | null = null;
     let painting: boolean = false;
     let painting2: boolean = false;
 
-    const mike = () => {
-      mstate = !mstate;
-    };
 
+    let MikeAudio = false;
+
+
+    //penon or penoff
     const pen = () => {
       pstate = !pstate;
       estate = false;
     };
-
+    //eraseron or eraseroff
     const eraser = () => {
       estate = !estate;
       pstate = false;
     };
 
-    
+    const handleMikeClick = () => {
+        console.log(stream?.getAudioTracks());
+        if(!MikeAudio) {
+            mstate = 'on';
+            MikeAudio = true;
+        } else {
+            mstate = 'off';
+            MikeAudio = false;
+        }
+    }
 
-    // canvas1 그림 그리기를 멈추는 함수를 정의
+    // canvas1 그림 그리기를 멈추는 함수
     const stopPainting = () => {
       painting = false;
     };
 
-    // canvas1 그림 그리기를 시작하는 함수를 정의
+    // canvas1 그림 그리기를 시작하는 함수
     const startPainting = () => {
       painting = true;
     };
 
+    // canvas2 그림 그리기를 멈추는 함수
     const stopPainting2 = () => {
         painting2 = false;
     }
 
+    // canvas2 그림 그리기를 시작하는 함수
     const startPainting2 = () => {
         painting2 = true;
     }
 
   
-    // 마우스가 움직일 때 호출되는 함수를 정의
+    // 마우스가 움직일 때 호출되는 함수를 정의(canvas1)
     const onMouseMove = (event: MouseEvent) => {
       if (ctx && (pstate || estate)) {
         // pstate 또는 estate가 true일 때만 처리
@@ -73,6 +106,7 @@
       }
     };
 
+    // 마우스가 움직일 때 호출되는 함수를 정의(canvas2)
     const onMouseMove2 = (event: MouseEvent) => {
       if (ctx2 && (pstate || estate)) {
         // pstate 또는 estate가 true일 때만 처리
@@ -110,12 +144,16 @@
       }
     };
   
+    //화면 공유 버튼을 클릭했을 때 
     const startShare = async () => {
       if (isSharing) {
         stopSharing(); // 화면 공유 중이면 중지
         if (ctx) {
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-      }
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);   // 화면 공유를 멈추면 모두 지우기(canvas1)
+        }
+        if (ctx2) {
+            ctx2.clearRect(0, 0, ctx2.canvas.width, ctx2.canvas.height) // 화면 공유를 멈추면 모두 지우기(canvas2)
+        }
       } else {
         const options: MediaStreamConstraints = { audio: true, video: true };
         try {
@@ -166,10 +204,10 @@
     // 모두 지우기 버튼 클릭 했을 때
     const handleClearButtonClick = () => {
       if (ctx) {
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);   // 모두 지우기 버튼 클릭했을 때 모두 지우기(canvas1)
       }
       if (ctx2) {
-        ctx2.clearRect(0, 0, ctx2.canvas.width, ctx2.canvas.height);
+        ctx2.clearRect(0, 0, ctx2.canvas.width, ctx2.canvas.height);    // 모두 지우기 버튼 클릭했을 때 모두 지우기(canvas2)
       }
       pstate = false;
       estate = false;
@@ -182,7 +220,6 @@
     let stream: MediaStream | null = null;
   
     onMount(() => {
-      // | null = document.getElementById('startButton') as HTMLButtonElement | null;
   
       if (navigator.mediaDevices && "getDisplayMedia" in navigator.mediaDevices) {
         startButtonDisable = false;
@@ -196,13 +233,12 @@
   
   <div class="container">
     <div class="button-head">
-      <div class="icon-mike">
-        {#if mstate}
-          <img src="/classserver/mikeon.png" on:click={mike} alt="mike" />
-        {:else}
-          <img src="/classserver/mikeoff.png" on:click={mike} alt="mike" />
-        {/if}
-      </div>
+      <button
+        class="icon-mike"
+        on:click={handleMikeClick}
+      >
+          <img src="/classserver/mike{mstate}.png" alt="mike" />
+      </button>
       
       <button
         class="icon-sharing"
@@ -293,6 +329,10 @@
       border: none;
       width: 60px;
       background-color: white
+    }
+    .icon-mike {
+        border: none;
+        background-color: white;
     }
     .share {
       margin: auto;

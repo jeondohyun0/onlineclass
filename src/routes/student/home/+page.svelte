@@ -1,3 +1,9 @@
+<script>
+    let state = false;
+    const logoutb = () => {
+        state = !state
+    }
+</script>
 <div class="container">
     <header class="text-head">나의 클래스</header>
     <hr>
@@ -14,7 +20,14 @@
             </div>
         </a>
     </div>
-    <img src="/home/account.png" alt="account" id="account" style="height: 120px">
+    <div class="logoutbutton">
+        {#if state}
+        <button class="logout">로그아웃</button>
+        {:else}
+        <div style="width: 300px;"></div>
+        {/if}
+        <img src="/home/account.png" alt="account" id="account" style="height: 120px" on:click={logoutb}>
+    </div>
 </div>
 <style>
     .container {
@@ -68,5 +81,18 @@
     #account {
         float: right;
         margin-top: 50px;
+    }
+    .logoutbutton {
+        display: flex;
+        margin-left: 300px;
+    }
+    .logout {
+        height: 50px;
+        width: 120px;
+        background-color: red;
+        color: white;
+        border-color: white;
+        border-radius: 20px;
+        margin-top: 100px;
     }
 </style>

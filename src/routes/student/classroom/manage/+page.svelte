@@ -17,9 +17,11 @@
         <div>제출일 | {sdate}</div>
         <div>교재 | {book}</div>
         <div>범위 | {range}</div>
-        <button class="sub">
+        <!--
+            <button class="sub">
             <div>숙제 제출하기</div>
-        </button>
+            </button>
+        -->
     </div>
     {/each}
 </div>
