@@ -32,16 +32,3 @@ export interface classroom {
 
 await client.connect();
 export default client.db(dbName);
-// let arr:WithId<chatting>[] = [];
-
-// async function main() {
-//     // Use connect method to connect to the server
-//     await client.connect();
-//     console.log('Connected successfully to server');
-//     const db = client.db(dbName);
-//     const collection = db.collection<chatting>('chatting');
-//     for await(let i of collection.find({})){
-//         arr = [...arr, i];
-//     // the following code examples can be pasted here...
-//     return 'done.';
-// }
