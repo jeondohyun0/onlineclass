@@ -1,5 +1,7 @@
 <script lang="ts">
-    import Homework from '$lib/asset/homework.json'
+    import Homework from '$lib/asset/homework.json';
+    import { user as Userstore } from '$lib/store';
+
     const inform = Homework.homework
     
     interface homeworkin {
@@ -43,7 +45,7 @@
 </script>
 <div class="box-classin">
     <div class="text-classin">수업 정보</div>
-    <a href="/teacher/classin">
+    <a href="/teacher/${$Userstore.email}/classin">
         <img src="/classroom/manage/classin.png" class="classin" alt="classin">
     </a>
 </div>

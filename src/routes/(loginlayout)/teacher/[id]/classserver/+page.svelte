@@ -1,5 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
+    import { user as Userstore } from "$lib/store";
 
 
     import {Peer} from "peerjs"
@@ -254,7 +255,7 @@
         on:click={handleClearButtonClick}
         alt="pen"
       />
-      <a href="/teacher/classroom/class">
+      <a href="/teacher/${$Userstore.email}/classroom/class">
         <img src="/classserver/exit.png" id="exit" alt="exit" />
       </a>
     </div>

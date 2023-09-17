@@ -10,23 +10,24 @@ const client = new MongoClient(url);
 const dbName = 'Project';
 
 export interface classinformation {
-    job: string
     classcode: string
     date: string
     book: string
     time: string
 }
 export interface homework {
-    job: string
     classcode: string
     rdate: string
     sdate: string
     book: string
     range: string
 }
-export interface classroom {
-    email: string
+export interface classplus {
     classcode: string
+    temail: string
+    semail: string
+    tname: string
+    sname: string
 }
 
 

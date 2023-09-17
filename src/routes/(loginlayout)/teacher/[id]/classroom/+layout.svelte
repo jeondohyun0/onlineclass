@@ -1,5 +1,6 @@
 <script lang="ts">
     import { page } from '$app/stores';
+    import { user as Userstore } from '$lib/store';
     $:pathname = $page.url.pathname;
     const urlInfo = [
         { url: "/class", name:"수업"},
@@ -9,16 +10,16 @@
 </script>
 <div class="container">
     <div class="box-head">
-        <a href="/teacher/home">
+        <a href="/teacher/${$Userstore.email}/home">
             <img src="/classroom/class/home.png" alt="home" id="home" style="height: 40px; margin: 5px auto"/>
         </a>
     </div>
     <table>
         <tr>
             {#each urlInfo as { url, name}}
-                <td class={pathname === `/teacher/classroom${url}` ? 'active' : ''}>
+                <td class={pathname === `/teacher/${$Userstore.email}/classroom${url}` ? 'active' : ''}>
                     <a
-                        href="/teacher/classroom{url}"
+                        href="/teacher/${$Userstore.email}/classroom{url}"
                         style="text-decoration: none; color: #836666;"
                     >
                         <div style="width: auto;">{name}</div>

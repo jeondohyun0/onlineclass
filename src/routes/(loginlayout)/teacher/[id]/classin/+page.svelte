@@ -1,5 +1,6 @@
 <script lang="ts">
     import Information from '$lib/asset/information.json'
+    import { user as Userstore } from '$lib/store';
     const inform = Information.information
     
     interface informationin {
@@ -40,7 +41,7 @@
 </script>
 <div class="container">
     <div class="box-head">
-        <a href="/teacher/classroom/manage">
+        <a href="/teacher/${$Userstore.email}/classroom/manage">
             <img src="/classin/before.png" alt="before"style="height: 30px; margin: 10px 5px"/>
         </a>
     </div>

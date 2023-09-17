@@ -1,53 +1,26 @@
 <script lang="ts">
-    import { MongoClient } from "mongodb";
-    import { user as Userstore } from "$lib/store";
+    import { user as Userstore} from '$lib/store'
     import { goto } from "$app/navigation";
-    import type { classroom } from "$lib/DB";
-
-    const url =
-        "mongodb+srv://tintin3492:jdh080821@jdh.yowz4k7.mongodb.net/?retryWrites=true&w=majority";
-    const dbName = "Project"; // 사용할 데이터베이스 이름
+    // src/routes/teacher/classplus/+page.svelte
 
     let input1 = "";
     let input2 = "";
     let errmasg = "";
 
     const check = async () => {
-        if (input1 !== input2) {
-            errmasg = "수업 코드가 서로 일치하지 않습니다.";
-        } else if (input1.length < 7 || input2.length < 7) {
-            errmasg = "수업 코드를 7자 이상 입력해주세요.";
-        } else {
-            const userEmail = $Userstore.email;
-
-            try {
-                const client = new MongoClient(url);
-                await client.connect();
-                const db = client.db(dbName);
-                const collection = db.collection<classroom>("classroom");
-
-                // 새로운 문서(document) 생성
-                const newClassroom: classroom = {
-                    email: userEmail,
-                    classcode: input2,
-                };
-
-                // 문서 삽입
-                await collection.insertOne(newClassroom);
-
-                console.log("Data saved successfully");
-
-                goto("/teacher/home");
-            } catch (error) {
-                console.error("Error saving data:", error);
-            }
-        }
-    };
+    if (input1 !== input2) {
+      errmasg = "수업 코드가 서로 일치하지 않습니다.";
+    } else if (input1.length < 7 || input2.length < 7) {
+      errmasg = "수업 코드를 7자 이상 입력해주세요.";
+    } else {
+      goto(`/teacher/${$Userstore.email}/home`);
+    }
+  };
 </script>
 
 <div class="container">
     <div class="box-head">
-        <a href="/teacher/home">
+        <a href="/teacher/${$Userstore.email}/home">
             <img
                 src="/classplus/before.png"
                 alt="before"

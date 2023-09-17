@@ -35,8 +35,15 @@
         const un = onAuthStateChanged(auth, (user) => {
             curUser = user;
             if(user) {
+                $Userstore = { 
+                    name:user.displayName ?? '',
+                    email:user.email ?? '',
+                    phone:user.phoneNumber ?? '',
+                    photoaddress:user.photoURL ?? '',
+                    job:route
+                }
                 if(route !== '') {
-                    goto(`${route}/home`);
+                    goto(`${route}/${$Userstore.email}/home`);
                 } else {
                     logout(firebaseConfig);
                 }
@@ -68,7 +75,7 @@
                 $Userstore.phone = `${curUser?.phoneNumber}`;
                 $Userstore.photoaddress = `${curUser?.photoURL}`;
                 $Userstore.job = `${job}`;
-                goto(`${route}/home`);
+                goto(`${route}/${$Userstore.email}/home`);
                 return { token, user };
             } catch (error) {
                 if (error instanceof FirebaseError) {

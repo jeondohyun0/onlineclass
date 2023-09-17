@@ -39,6 +39,18 @@
         return chatin = [...chatin, chats()]
     }
 
+
+
+
+
+
+
+
+    
+
+
+
+
 </script>
 <div bind:this={element} class="container-chatting">
     {#each chatin as {CONTENT, TIME}}

@@ -1,3 +1,14 @@
+<script>
+    import { user as Userstore } from "$lib/store";
+</script>
+
+<div class="box">
+    <a href="/teacher/${$Userstore.email}/classserver" style="text-decoration: none;">
+        <div class="box-enter">
+            <div class="text-enter">수업 채널 참가하기</div>
+        </div>
+    </a>
+</div>
 <style>
     .box-enter {
         height: 30px;
@@ -17,14 +28,3 @@
         margin: auto;
     }
 </style>
-<div class="box">
-    <a href="/teacher/classserver" style="text-decoration: none;">
-        <div class="box-enter">
-            <div class="text-enter">수업 채널 참가하기</div>
-        </div>
-    </a>
-</div>
-
-
-
-
