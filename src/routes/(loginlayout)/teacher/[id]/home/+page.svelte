@@ -2,22 +2,41 @@
     import type { classplus } from "$lib/DB";
     import { onMount } from "svelte";
     import { user as Userstore } from "$lib/store";
-    import { classcode as Codestore} from "$lib/store";
-    
+    import { classcode as Code } from "$lib/store";
+
     import type { PageServerData } from "./$types";
     import { goto } from "$app/navigation";
-    export let data: PageServerData;
-    
-    let classplus = data.teacher;
+    //  export let data: PageServerData;
 
+    //    let classplus = data.teacher;
+    
+    let classplus: classplus[] = [];
+
+    onMount(async () => {
+        if ($Userstore.email) {
+            const res = await fetch(`/teacher/${$Userstore.email}/home/api`, {
+                method: "POST",
+            });
+            classplus = await res.json();
+        } else {
+            console.error("User email is not defined");
+        }
+    });
 </script>
+
 <div class="container">
     <header class="text-head">나의 클래스</header>
-    <hr>
+    <hr />
     <div class="content">
         {#each classplus as c}
-            <a href='/teacher/${$Userstore.email}/classroom/class'>
-                <div class="box-class">
+            <a href="/teacher/${$Userstore.email}/classroom/class">
+                <div
+                    class="box-class"
+                    on:click={() => {
+                        $Code.code = `${c.classcode}`
+                        console.log($Code.code)
+                    }}
+                >
                     <div class="box-sub">
                         <div class="sname">{c.sname}학생</div>
                     </div>
@@ -25,7 +44,10 @@
                 </div>
             </a>
         {/each}
-        <a href="/teacher/${$Userstore.email}/classplus" style="text-decoration: none;">
+        <a
+            href="/teacher/${$Userstore.email}/classplus"
+            style="text-decoration: none;"
+        >
             <div class="box-plusclass">
                 <img
                     src="/home/plus.png"
@@ -38,6 +60,7 @@
         </a>
     </div>
 </div>
+
 <style>
     .container {
         margin: auto;
@@ -59,7 +82,7 @@
         display: none;
     }
     .box-class {
-        background-color: #F5F5F5;
+        background-color: #f5f5f5;
         border-radius: 30px;
         height: 150px;
         width: 420px;
@@ -67,12 +90,12 @@
         margin-top: 30px;
     }
     .box-sub {
-        background-color: #32BBE7;
+        background-color: #32bbe7;
         border-radius: 30px;
         height: 110px;
     }
     .box-plusclass {
-        background-color: #F5F5F5;
+        background-color: #f5f5f5;
         border-radius: 30px;
         height: 150px;
         width: 420px;
@@ -81,7 +104,7 @@
         margin-top: 30px;
     }
     .text-plusclass {
-        color: #202A8A;
+        color: #202a8a;
         font-size: 10px;
     }
     #plus {
@@ -112,7 +135,7 @@
     .classcode {
         margin-left: 30px;
         margin-top: 7px;
-        color: #B6A0A0;
+        color: #b6a0a0;
     }
     .sname {
         padding-top: 80px;

@@ -1,9 +1,10 @@
 <script>
-    import Homework from '$lib/asset/homework.json'
+    import Homework from '$lib/asset/homework.json';
+    import { user as Userstore } from '$lib/store';
 </script>
 <div class="box-classin">
     <div class="text-classin">수업 정보</div>
-    <a href="/student/classin">
+    <a href="/student/${$Userstore.email}/classin">
         <img src="/classroom/manage/classin.png" class="classin" alt="classin">
     </a>
 </div>

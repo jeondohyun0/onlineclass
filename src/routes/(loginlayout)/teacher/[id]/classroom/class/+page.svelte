@@ -1,5 +1,6 @@
 <script>
     import { user as Userstore } from "$lib/store";
+    import { classcode as Code } from "$lib/store";
 </script>
 
 <div class="box">

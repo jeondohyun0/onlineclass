@@ -1,6 +1,9 @@
+<script>
+    import { user as Userstore } from "$lib/store";
+</script>
 <div class="container">
     <div class="box-head">
-        <a href="/student/home">
+        <a href="/student/${$Userstore.email}/home">
             <img src="/classplus/before.png" alt="before"style="height: 30px; margin: 10px 5px"/>
         </a>
     </div>

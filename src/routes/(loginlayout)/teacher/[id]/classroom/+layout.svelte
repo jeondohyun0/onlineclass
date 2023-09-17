@@ -1,23 +1,39 @@
 <script lang="ts">
-    import { page } from '$app/stores';
-    import { user as Userstore } from '$lib/store';
-    $:pathname = $page.url.pathname;
+    import { classcode as Code } from "$lib/store";
+    import { page } from "$app/stores";
+    import { user as Userstore } from "$lib/store";
+    $: pathname = $page.url.pathname;
     const urlInfo = [
-        { url: "/class", name:"수업"},
-        { url: "/chat", name:"채팅"},
-        { url: "/manage", name:"수업 관리"}
-    ]
+        { url: "/class", name: "수업" },
+        { url: "/chat", name: "채팅" },
+        { url: "/manage", name: "수업 관리" },
+    ];
 </script>
+
 <div class="container">
     <div class="box-head">
         <a href="/teacher/${$Userstore.email}/home">
-            <img src="/classroom/class/home.png" alt="home" id="home" style="height: 40px; margin: 5px auto"/>
+            <img
+                src="/classroom/class/home.png"
+                on:click={() => {
+                    $Code.code = "";
+                    console.log($Code.code);
+                }}
+                alt="home"
+                id="home"
+                style="height: 40px; margin: 5px auto"
+            />
         </a>
     </div>
     <table>
         <tr>
-            {#each urlInfo as { url, name}}
-                <td class={pathname === `/teacher/${$Userstore.email}/classroom${url}` ? 'active' : ''}>
+            {#each urlInfo as { url, name }}
+                <td
+                    class={pathname ===
+                    `/teacher/${$Userstore.email}/classroom${url}`
+                        ? "active"
+                        : ""}
+                >
                     <a
                         href="/teacher/${$Userstore.email}/classroom{url}"
                         style="text-decoration: none; color: #836666;"
@@ -55,7 +71,7 @@
         padding: 10px 0;
         width: 120px;
     }
-    .active{
-        background-color: #E4DCDC;
+    .active {
+        background-color: #e4dcdc;
     }
 </style>

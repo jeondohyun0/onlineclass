@@ -2,12 +2,26 @@
     import type { classplus } from "$lib/DB";
     import { onMount } from "svelte";
     import { user as Userstore } from "$lib/store";
+    import { classcode as Code } from "$lib/store";
     
     import type { PageServerData } from "./$types";
     import { goto } from "$app/navigation";
-    export let data: PageServerData;
+   // export let data: PageServerData;
     
-    let classplus = data.student;
+    //let classplus = data.student;
+
+    let classplus: classplus[] = []
+
+    onMount(async () => {
+        if ($Userstore.email) {
+            const res = await fetch(`/student/${$Userstore.email}/home/api`, {
+                method: "POST",
+            });
+            classplus = await res.json();
+        } else {
+            console.error("User email is not defined");
+        }
+    });
     
 </script>
 <div class="container">
@@ -15,9 +29,14 @@
     <hr />
     <div class="content">
         {#each classplus as c}
-            <a href="/student/classroom/class">
-                <div class="box-class">
-                    
+            <a href="/student/${$Userstore.email}/classroom/class">
+                <div
+                    class="box-class"
+                    on:click={() => {
+                        $Code.code = `${c.classcode}`
+                        console.log($Code.code)
+                    }}
+                    >
                     <div class="box-sub">
                         <div class="sname">{c.sname}선생님  {c.temail}</div>
                     </div>
@@ -25,7 +44,7 @@
                 </div>
             </a>
         {/each}
-        <a href="/student/classplus" style="text-decoration: none;">
+        <a href="/student/${$Userstore.email}/classplus" style="text-decoration: none;">
             <div class="box-plusclass">
                 <img
                     src="/home/plus.png"

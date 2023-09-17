@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { classcode as Code } from "$lib/store";
     import {
         GoogleAuthProvider, //로그인
         browserSessionPersistence, //로그인 기록 남김
@@ -43,7 +44,10 @@
         $Userstore.email = '';
         $Userstore.phone = '';
         $Userstore.photoaddress = '';
+        $Code.code = '';
         goto('/login')
+        console.log($Userstore);
+        console.log($Code.code)
     };
     let state = false;
     const logoutb = () => {
