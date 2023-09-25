@@ -1,47 +1,31 @@
 <script lang="ts">
-    import Homework from '$lib/asset/homework.json';
     import { user as Userstore } from '$lib/store';
+    import type { homework } from '$lib/DB';
+    import { onMount } from 'svelte';
 
-    const inform = Homework.homework
     
-    interface homeworkin {
-        RDATE?: string;
-        SDATE?: string;
-        BOOK?: string;
-        RANGE?: string;
-        INDEX?: number;
-    }
+    let homework: homework[] = [];
 
-    let homeworkin: homeworkin[] = [];
-
-    let num = 0;
     let state = false
-    const homeworks = () => {
-        let RDATE = inform[num].rdate;
-        let SDATE = inform[num].sdate;
-        let BOOK = inform[num].book;
-        let RANGE = inform[num].range;
-        let INDEX = inform[num].index;
 
-        return {
-            RDATE,
-            SDATE,
-            BOOK,
-            RANGE,
-            INDEX
-        }
-    }
     const pluscontent = () => {
         state = true
-    }
-    const plus = () => {
-        state = false;
-        num = num + 1
-        return homeworkin = [...homeworkin, homeworks()]
     }
     const cancel = () => {
         state = false
     }
+
+    onMount(async () => {
+        if($Userstore.email) {
+            const res = await fetch(`/teacher/${$Userstore.email}/classroom/manage/api`, {
+                method: "POST",
+            });
+            homework = await res.json();
+            console.log(homework)
+        } else {
+            console.error("User email is not defined")
+        }
+    });
 </script>
 <div class="box-classin">
     <div class="text-classin">수업 정보</div>
@@ -62,7 +46,7 @@
     <div class="pluscontent">
         <div class="button-head">
             <button class="button-before" on:click={cancel}>취소</button>
-            <button class="button-sure" on:click={plus}>저장</button>
+            <button class="button-sure">저장</button>
         </div>
         <div class="rdate">
             <div class="text-rdate">등록일</div>
@@ -86,12 +70,12 @@
         </div>
     </div>
     {/if}
-    {#each homeworkin as {RDATE, SDATE, BOOK, RANGE}}
+    {#each homework as h}
     <div class="content-homework">
-        <div>등록일 | {RDATE}</div>
-        <div>제출일 | {SDATE}</div>
-        <div>교재 | {BOOK}</div>
-        <div>범위 | {RANGE}</div>
+        <div>등록일 | {h.rdate}</div>
+        <div>제출일 | {h.sdate}</div>
+        <div>교재 | {h.book}</div>
+        <div>범위 | {h.srange} ~ {h.erange}</div>
         <button class="del-in">
             <div>삭제</div>
         </button>

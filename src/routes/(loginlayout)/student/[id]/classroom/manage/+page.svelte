@@ -1,6 +1,25 @@
-<script>
-    import Homework from '$lib/asset/homework.json';
-    import { user as Userstore } from '$lib/store';
+<script lang="ts">
+    import { user as Userstore, classcode } from '$lib/store';
+    import type { homework } from '$lib/DB';
+    import { onMount } from 'svelte';
+    import { classcode as Code } from '$lib/store';
+    let homework: homework[] = [];
+
+    onMount(async () => {
+    if($Userstore.email) {
+        const res = await fetch(`/student/${$Userstore.email}/classroom/manage/api`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ classcode: $Code.code })  // Code 객체의 code 프로퍼티를 사용
+        });
+        homework = await res.json();
+        console.log(homework)
+    } else {
+        console.error("User email is not defined")
+    }
+});
 </script>
 <div class="box-classin">
     <div class="text-classin">수업 정보</div>
@@ -12,12 +31,12 @@
     <div class="text-task">과제</div>
 </div>
 <div class="container-homework">
-    {#each Homework.homework as {rdate, sdate, book, range}}
+    {#each homework as h}
     <div class="content-homework">
-        <div>등록일 | {rdate}</div>
-        <div>제출일 | {sdate}</div>
-        <div>교재 | {book}</div>
-        <div>범위 | {range}</div>
+        <div>등록일 | {h.rdate}</div>
+        <div>제출일 | {h.sdate}</div>
+        <div>교재 | {h.book}</div>
+        <div>범위 | {h.srange} ~ {h.erange}</div>
         <!--
             <button class="sub">
             <div>숙제 제출하기</div>

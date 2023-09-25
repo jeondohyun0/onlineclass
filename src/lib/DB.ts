@@ -13,14 +13,16 @@ export interface classinformation {
     classcode: string
     date: string
     book: string
-    time: string
+    stime: string
+    etime: string
 }
 export interface homework {
     classcode: string
     rdate: string
     sdate: string
     book: string
-    range: string
+    srange: string
+    erange:string
 }
 export interface classplus {
     classcode: string
@@ -29,7 +31,6 @@ export interface classplus {
     tname: string
     sname: string
 }
-
 
 await client.connect();
 export default client.db(dbName);

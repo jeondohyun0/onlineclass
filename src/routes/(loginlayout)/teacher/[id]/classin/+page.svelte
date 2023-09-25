@@ -1,43 +1,30 @@
 <script lang="ts">
-    import Information from '$lib/asset/information.json'
+    import type { classinformation } from '$lib/DB';
     import { user as Userstore } from '$lib/store';
-    const inform = Information.information
-    
-    interface informationin {
-        DATE?: string;
-        BOOK?: string;
-        TIME?: string;
-        INDEX?: number;
-    }
+    import { onMount } from 'svelte';
 
-    let informationin: informationin[] = [];
+    let classinformation: classinformation[] = [];
 
-    let num = 0;
     let state = false;
-    const informations = () => {
-        let DATE = inform[num].date;
-        let BOOK = inform[num].book;
-        let TIME = inform[num].time;
-        let INDEX = inform[num].index;
-
-        return {
-            DATE,
-            BOOK,
-            TIME,
-            INDEX
-        }
-    }
+    
     const pluscontent = () => {
         state = true
-    }
-    const plus = () => {
-        state = false;
-        num = num + 1
-        return informationin = [...informationin, informations()]
     }
     const delcontent = () => {
         state = false
     }
+
+    onMount(async () => {
+        if($Userstore.email) {
+            const res = await fetch(`/teacher/${$Userstore.email}/classin/api`, {
+                method: "POST",
+            });
+            classinformation = await res.json();
+            console.log(classinformation)
+        } else {
+            console.error("User email is not defined")
+        }
+    })
 </script>
 <div class="container">
     <div class="box-head">
@@ -54,7 +41,7 @@
         <div class="pluscontent">
             <div class="button-head">
                 <button class="button-before" on:click={delcontent}>취소</button>
-                <button class="button-sure" on:click={plus}>저장</button>
+                <button class="button-sure">저장</button>
             </div>
             <div class="date">
                 <div class="text-date">날짜</div>
@@ -74,13 +61,13 @@
             </div>
         </div>
         {/if}
-        {#each informationin as {DATE, BOOK, TIME}}
+        {#each classinformation as c}
         <div class="content-classinformation">
-            <div class="left-information">{DATE}</div>
+            <div class="left-information">{c.date}</div>
             <div class="length"></div>
             <div class="right-information">
-                <div>교재 {BOOK}</div>
-                <div>시간 {TIME}</div>
+                <div>교재 {c.book}</div>
+                <div>시간 {c.stime} ~ {c.etime}</div>
             </div>
             <button class="del-in">
                 <div>삭제</div>

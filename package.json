@@ -20,10 +20,12 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@polka/parse": "^1.0.0-next.0",
 		"@types/dom-mediacapture-transform": "^0.1.6",
 		"firebase": "^10.3.0",
 		"mongodb": "^6.0.0",
 		"peerjs": "^1.4.7",
+		"polka": "^0.5.2",
 		"svelte-routing": "^2.3.0"
 	}
 }

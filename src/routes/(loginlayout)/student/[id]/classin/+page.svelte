@@ -1,6 +1,21 @@
-<script>
-    import Information from '$lib/asset/information.json'
+<script lang="ts">
+    import type { classinformation } from '$lib/DB';
+    import { onMount } from 'svelte';
     import { user as Userstore } from '$lib/store';
+
+    let classinformation: classinformation[] = [];
+
+    onMount(async () => {
+        if($Userstore.email) {
+            const res = await fetch(`/student/${$Userstore.email}/classin/api`, {
+                method: "POST",
+            });
+            classinformation = await res.json();
+            console.log(classinformation)
+        } else {
+            console.error("User email is not defined")
+        }
+    })
 </script>
 <div class="container">
     <div class="box-head">
@@ -9,13 +24,13 @@
         </a>
     </div>
     <div class="container-date">
-        {#each Information.information as {date, book, time}}
+        {#each classinformation as c}
         <div class="content-classinformation">
-            <div class="left-information">{date}</div>
+            <div class="left-information">{c.date}</div>
             <div class="length"></div>
             <div class="right-information">
-                <div>교재 {book}</div>
-                <div>시간 {time}</div>
+                <div>교재 {c.book}</div>
+                <div>시간 {c.stime} ~ {c.etime}</div>
             </div>
         </div>
         {/each}
