@@ -1,21 +1,39 @@
 <script lang="ts">
-    import { user as Userstore} from '$lib/store'
+    import { user as Userstore } from "$lib/store";
     import { goto } from "$app/navigation";
     // src/routes/teacher/classplus/+page.svelte
 
     let input1 = "";
     let input2 = "";
-    let errmasg = "";
+    let errmsg = "";
 
     const check = async () => {
-    if (input1 !== input2) {
-      errmasg = "수업 코드가 서로 일치하지 않습니다.";
-    } else if (input1.length < 7 || input2.length < 7) {
-      errmasg = "수업 코드를 7자 이상 입력해주세요.";
-    } else {
-      goto(`/teacher/${$Userstore.email}/home`);
-    }
-  };
+        if (input1 !== input2) {
+            errmsg = "수업 코드가 서로 일치하지 않습니다.";
+        } else if (input1.length < 7 || input2.length < 7) {
+            errmsg = "수업 코드를 7자 이상 입력해주세요.";
+        } else {
+            let n = $Userstore.name;
+            let e = $Userstore.email;
+            let co = input2;
+            const res = await fetch(
+                `/teacher/${$Userstore.email}/classplus/api`,
+                {
+                    method: "POST",
+                    body: JSON.stringify([n, e, co]),
+                    headers: {
+                        "content-type": "application/json",
+                    },
+                }
+            );
+
+            if (res.status === 400) {
+                errmsg = "이미 수업 코드가 있습니다";
+            } else {
+                goto(`/teacher/${$Userstore.email}/home`);
+            }
+        }
+    };
 </script>
 
 <div class="container">
@@ -48,7 +66,7 @@
                 placeholder="수업 채널 코드 7 ~ 12자리 확인"
             />
         </div>
-        <div class="errmsg">{errmasg}</div>
+        <div class="errmsg">{errmsg}</div>
         <button on:click={check}>확인</button>
     </div>
 </div>

@@ -1,78 +1,122 @@
 <script lang="ts">
-    import type { classinformation } from '$lib/DB';
-    import { user as Userstore } from '$lib/store';
-    import { onMount } from 'svelte';
+    import type { classinformation } from "$lib/DB";
+    import { user as Userstore } from "$lib/store";
+    import { onMount } from "svelte";
+    import { classcode as Code } from "$lib/store";
 
     let classinformation: classinformation[] = [];
 
     let state = false;
-    
+
+    let date: Date;
+    let book: string = "";
+    let stime: Date;
+    let etime: Date;
+
     const pluscontent = () => {
-        state = true
-    }
+        state = true;
+    };
     const delcontent = () => {
-        state = false
-    }
+        state = false;
+    };
 
     onMount(async () => {
-        if($Userstore.email) {
-            const res = await fetch(`/teacher/${$Userstore.email}/classin/api`, {
-                method: "POST",
-            });
+        if ($Userstore.email) {
+            const res = await fetch(
+                `/teacher/${$Userstore.email}/classin/api`,
+                {
+                    method: "POST",
+                    body: JSON.stringify($Code.code),
+                    headers: {
+                        "content-type": "application/json",
+                    },
+                }
+            );
             classinformation = await res.json();
-            console.log(classinformation)
+            console.log(classinformation);
         } else {
-            console.error("User email is not defined")
+            console.error("User email is not defined");
         }
-    })
+    });
+
+    const storage = async () => {
+        state = false;
+        let d = date.toString();
+        let b = book;
+        let s = stime.toString();
+        let e = etime.toString();
+        const res = await fetch(`/teacher/${$Userstore.email}/classin/api`, {
+            method: "POST",
+            body: JSON.stringify({ d, b, s, e }),
+            headers: {
+                "content-type": "application/json",
+            },
+        });
+        classinformation = await res.json();
+    };
 </script>
+
 <div class="container">
     <div class="box-head">
         <a href="/teacher/${$Userstore.email}/classroom/manage">
-            <img src="/classin/before.png" alt="before"style="height: 30px; margin: 10px 5px"/>
+            <img
+                src="/classin/before.png"
+                alt="before"
+                style="height: 30px; margin: 10px 5px"
+            />
         </a>
     </div>
     <div class="container-date">
         <button class="plus-in" on:click={pluscontent}>
-            <img src="/classin/plus.png" class="plus" alt="plus">
+            <img src="/classin/plus.png" class="plus" alt="plus" />
             <div class="information">일정 추가하기</div>
         </button>
         {#if state}
-        <div class="pluscontent">
-            <div class="button-head">
-                <button class="button-before" on:click={delcontent}>취소</button>
-                <button class="button-sure">저장</button>
-            </div>
-            <div class="date">
-                <div class="text-date">날짜</div>
-                <input class="bar-date" type="date">
-            </div>
-            <div class="book">
-                <div class="text-book">교재</div>
-                <input class="bar-book" type="text">
-            </div>
-            <div class="time">
-                <div class="text-time">시간</div>
-                <div class="time-box">
-                    <input class="bar-time-first" type="time">
-                    ~
-                    <input class="bar-time-second" type="time">
+            <div class="pluscontent">
+                <div class="button-head">
+                    <button class="button-before" on:click={delcontent}
+                        >취소</button
+                    >
+                    <button class="button-sure" on:click={storage}>저장</button>
+                </div>
+                <div class="date">
+                    <div class="text-date">날짜</div>
+                    <input class="bar-date" type="date" bind:value={date} />
+                </div>
+                <div class="book">
+                    <div class="text-book">교재</div>
+                    <input class="bar-book" type="text" bind:value={book} />
+                </div>
+                <div class="time">
+                    <div class="text-time">시간</div>
+                    <div class="time-box">
+                        <input
+                            class="bar-time-first"
+                            type="time"
+                            bind:value={stime}
+                        />
+                        ~
+                        <input
+                            class="bar-time-second"
+                            type="time"
+                            bind:value={etime}
+                        />
+                    </div>
                 </div>
             </div>
-        </div>
         {/if}
         {#each classinformation as c}
-        <div class="content-classinformation">
-            <div class="left-information">{c.date}</div>
-            <div class="length"></div>
-            <div class="right-information">
-                <div>교재 {c.book}</div>
-                <div>시간 {c.stime} ~ {c.etime}</div>
+            <div class="content-classinformation">
+                <div class="left-information">{c.date}</div>
+                <div class="length" />
+                <div class="right-information">
+                    <div>교재 {c.book}</div>
+                    <div>시간 {c.stime} ~ {c.etime}</div>
+                </div>
+                <button class="del-in">
+                    <div>삭제</div>
+                </button>
             </div>
-            <button class="del-in">
-                <div>삭제</div>
-            </button>
-        </div>
         {/each}
     </div>
 </div>
@@ -101,7 +145,7 @@
         height: 63px;
         width: 100px;
         border-radius: 10px;
-        border: #D9D9D9;
+        border: #d9d9d9;
         display: flex;
         margin: 30px auto;
         flex-direction: column;
@@ -120,7 +164,7 @@
         background-color: #f7f5f5;
         margin-bottom: 30px;
         display: flex;
-        flex-wrap: wrap
+        flex-wrap: wrap;
     }
     .length {
         height: 70px;
@@ -132,7 +176,7 @@
         font-size: large;
     }
     .del-in {
-        border: #D9D9D9;
+        border: #d9d9d9;
         background-color: #e4d8d8;
         display: flex;
         margin: 30px auto;
@@ -184,7 +228,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding:5px;
+        padding: 5px;
     }
     .bar-time-first {
         width: 130px;

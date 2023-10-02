@@ -1,30 +1,35 @@
 <script lang="ts">
-    import { user as Userstore, classcode } from '$lib/store';
-    import type { homework } from '$lib/DB';
-    import { onMount } from 'svelte';
-    import { classcode as Code } from '$lib/store';
+    import { user as Userstore } from "$lib/store";
+    import type { homework } from "$lib/DB";
+    import { onMount } from "svelte";
+    import { classcode as Code } from "$lib/store";
     let homework: homework[] = [];
 
     onMount(async () => {
-    if($Userstore.email) {
-        const res = await fetch(`/student/${$Userstore.email}/classroom/manage/api`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ classcode: $Code.code })  // Code 객체의 code 프로퍼티를 사용
-        });
-        homework = await res.json();
-        console.log(homework)
-    } else {
-        console.error("User email is not defined")
-    }
-});
+        if ($Userstore.email) {
+            const res = await fetch(`/student/${$Userstore.email}/classroom/manage/api`, {
+                method: "POST",
+                body: JSON.stringify($Code.code),
+                headers: {
+                    'content-type': 'application/json'
+                }
+            });
+            homework = await res.json();
+            console.log(homework)
+        } else {
+            console.error("User email is not defined");
+        }
+    });
 </script>
+
 <div class="box-classin">
     <div class="text-classin">수업 정보</div>
     <a href="/student/${$Userstore.email}/classin">
-        <img src="/classroom/manage/classin.png" class="classin" alt="classin">
+        <img
+            src="/classroom/manage/classin.png"
+            class="classin"
+            alt="classin"
+        />
     </a>
 </div>
 <div class="box-task">
@@ -32,19 +37,20 @@
 </div>
 <div class="container-homework">
     {#each homework as h}
-    <div class="content-homework">
-        <div>등록일 | {h.rdate}</div>
-        <div>제출일 | {h.sdate}</div>
-        <div>교재 | {h.book}</div>
-        <div>범위 | {h.srange} ~ {h.erange}</div>
-        <!--
+        <div class="content-homework">
+            <div>등록일 | {h.sdate}</div>
+            <div>제출일 | {h.edate}</div>
+            <div>교재 | {h.book}</div>
+            <div>범위 | {h.srange} ~ {h.erange}</div>
+            <!--
             <button class="sub">
             <div>숙제 제출하기</div>
             </button>
         -->
-    </div>
+        </div>
     {/each}
 </div>
+
 <style>
     .box-classin {
         display: flex;
@@ -54,11 +60,11 @@
         background-color: #32bbe7;
         width: 520px;
         height: 30px;
-        padding:5px;
+        padding: 5px;
         border: 1px solid #b6a0a0;
     }
     .text-classin {
-        color: #FFFFFF;
+        color: #ffffff;
     }
     .box-task {
         display: flex;
@@ -68,11 +74,11 @@
         background-color: #32bbe7;
         width: 520px;
         height: 30px;
-        padding:5px;
+        padding: 5px;
         border: 1px solid #b6a0a0;
     }
     .text-task {
-        color: #FFFFFF;
+        color: #ffffff;
     }
     .classin {
         height: 20px;
@@ -90,7 +96,7 @@
         background-color: #f7f5f5;
         margin-bottom: 30px;
         display: flex;
-        flex-wrap: wrap
+        flex-wrap: wrap;
     }
     .container-homework {
         display: flex;
@@ -109,7 +115,7 @@
         height: 70px;
         width: 100px;
         border-radius: 10px;
-        border: #D9D9D9;
+        border: #d9d9d9;
         display: flex;
         margin: 30px auto;
         flex-direction: column;

@@ -2,8 +2,6 @@
   import { onMount } from "svelte";
   import { user as Userstore } from "$lib/store";
 
-  
-
   let mstate = "off";
   let pstate = false;
   let estate = false;

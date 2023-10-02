@@ -17,9 +17,10 @@ export interface classinformation {
     etime: string
 }
 export interface homework {
+    _id?: any
     classcode: string
-    rdate: string
     sdate: string
+    edate: string
     book: string
     srange: string
     erange:string
@@ -27,9 +28,9 @@ export interface homework {
 export interface classplus {
     classcode: string
     temail: string
-    semail: string
+    semail?: string
     tname: string
-    sname: string
+    sname?: string
 }
 
 await client.connect();

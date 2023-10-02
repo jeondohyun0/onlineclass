@@ -2,6 +2,7 @@
     import type { classinformation } from '$lib/DB';
     import { onMount } from 'svelte';
     import { user as Userstore } from '$lib/store';
+    import { classcode as Code } from '$lib/store';
 
     let classinformation: classinformation[] = [];
 
@@ -9,6 +10,10 @@
         if($Userstore.email) {
             const res = await fetch(`/student/${$Userstore.email}/classin/api`, {
                 method: "POST",
+                body: JSON.stringify($Code.code),
+                headers: {
+                    'content-type': 'application/json'
+                }
             });
             classinformation = await res.json();
             console.log(classinformation)
