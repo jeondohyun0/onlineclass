@@ -1,4 +1,4 @@
-import db, { type homework } from '$lib/DB';
+import db, { type classplus } from '$lib/DB';
 import type { RequestHandler } from '../api/$types';
 
 import { ObjectId } from 'mongodb';
@@ -7,9 +7,9 @@ export const POST: RequestHandler = async ({ request }) => {
     try {
         const requestBody = await request.json();
         console.log('Request body:', requestBody); 
-        const id = new ObjectId(requestBody); 
-        const result = await db.collection<homework>('homework').deleteOne(
-            { _id: id }
+        const C = requestBody
+        const result = await db.collection<classplus>('classplus').deleteOne(
+            { classcode: C }
         );
         console.log('Delete result:', result);
 

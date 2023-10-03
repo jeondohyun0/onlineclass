@@ -7,6 +7,7 @@ export const POST:RequestHandler = async ({params}) => {
         temail:{
             $eq:params.id
         }
-    }).toArray()).map(v => ({...v, _id:v._id.toString('hex')}))
+    }).toArray()).map(v => ({...v, _id:v._id.toString('hex')}));
+    console.log(arr.length, arr)
     return new Response(JSON.stringify(arr), { headers: {'Content-type':'application/json'}});
 }

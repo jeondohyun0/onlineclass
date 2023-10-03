@@ -3,12 +3,6 @@
     import { onMount } from "svelte";
     import { user as Userstore } from "$lib/store";
     import { classcode as Code } from "$lib/store";
-
-    import type { PageServerData } from "./$types";
-    import { goto } from "$app/navigation";
-    //  export let data: PageServerData;
-
-    //    let classplus = data.teacher;
     
     let classplus: classplus[] = [];
 
@@ -28,17 +22,21 @@
     <header class="text-head">나의 클래스</header>
     <hr />
     <div class="content">
-        {#each classplus as c}
+        {#each classplus as c, index}
             <a href="/teacher/${$Userstore.email}/classroom/class">
                 <div
                     class="box-class"
                     on:click={() => {
                         $Code.code = `${c.classcode}`
-                        console.log($Code.code)
+                        console.log(classplus, Object.keys(classplus[index]).length)
                     }}
                 >
                     <div class="box-sub">
+                        {#if c.sname}
                         <div class="sname">{c.sname}학생</div>
+                        {:else}
+                        <div class="sname">빈방</div>
+                        {/if}              
                     </div>
                     <div class="classcode">코드: {c.classcode}</div>
                 </div>

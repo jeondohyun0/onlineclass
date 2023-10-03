@@ -157,7 +157,7 @@
             <div style="color: red;">{errmsg}</div>
         </div>
     {/if}
-    {#each homework as h, index}
+    {#each homework as h}
         <div class="content-homework">
             <div>등록일 | {h.sdate}</div>
             <div>제출일 | {h.edate}</div>

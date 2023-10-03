@@ -6,12 +6,14 @@
 
     let classinformation: classinformation[] = [];
 
-    let state = false;
-
-    let date: Date;
+    let date: Date | null = null;
     let book: string = "";
-    let stime: Date;
-    let etime: Date;
+    let stime: Date | null = null;
+    let etime: Date | null = null;
+
+    let errmsg: string = "";
+
+    let state = false;
 
     const pluscontent = () => {
         state = true;
@@ -20,40 +22,72 @@
         state = false;
     };
 
-    onMount(async () => {
-        if ($Userstore.email) {
-            const res = await fetch(
-                `/teacher/${$Userstore.email}/classin/api`,
-                {
-                    method: "POST",
-                    body: JSON.stringify($Code.code),
-                    headers: {
-                        "content-type": "application/json",
-                    },
-                }
-            );
-            classinformation = await res.json();
-            console.log(classinformation);
-        } else {
-            console.error("User email is not defined");
-        }
-    });
-
-    const storage = async () => {
-        state = false;
-        let d = date.toString();
-        let b = book;
-        let s = stime.toString();
-        let e = etime.toString();
+    const show = async () => {
         const res = await fetch(`/teacher/${$Userstore.email}/classin/api`, {
             method: "POST",
-            body: JSON.stringify({ d, b, s, e }),
+            body: JSON.stringify($Code.code),
             headers: {
                 "content-type": "application/json",
             },
         });
         classinformation = await res.json();
+        console.log(classinformation);
     };
+
+    const storage = async () => {
+        let D = date ? date.toString() : "";
+        let B = book || "";
+        let S = stime ? stime.toString() : "";
+        let E = etime ? etime.toString() : "";
+        if (D === "") {
+            errmsg = "제출일을 선택해주세요";
+        } else if (B === "") {
+            errmsg = "교재를 선택해주세요";
+        } else if (D === "" || E === "") {
+            errmsg = "시간을 선택해주세요";
+        } else {
+            let C = $Code.code;
+            console.log(D, B, S, E, C);
+            const res = await fetch(
+                `/teacher/${$Userstore.email}/classin/api2`,
+                {
+                    method: "POST",
+                    body: JSON.stringify([D, B, S, E, C]),
+                    headers: {
+                        "content-type": "application/json",
+                    },
+                }
+            );
+            state = false;
+            date = null;
+            book = "";
+            stime = null;
+            etime = null;
+            show();
+        }
+    };
+
+    const delclassin = async (id: string) => {
+        const res = await fetch(
+            `/teacher/${$Userstore.email}/classin/api3`,
+            {
+                method: "POST",
+                body: JSON.stringify(id),
+                headers: {
+                    "content-type": "application/json",
+                },
+            }
+        );
+        show();
+    };
+
+    onMount(async () => {
+        if ($Userstore.email) {
+            show();
+        } else {
+            console.error("User email is not defined");
+        }
+    });
 </script>
 
 <div class="container">
@@ -103,6 +137,7 @@
                         />
                     </div>
                 </div>
+                <div>{errmsg}</div>
             </div>
         {/if}
         {#each classinformation as c}
@@ -113,7 +148,7 @@
                     <div>교재 {c.book}</div>
                     <div>시간 {c.stime} ~ {c.etime}</div>
                 </div>
-                <button class="del-in">
+                <button class="del-in" on:click={() => delclassin(c._id)}>
                     <div>삭제</div>
                 </button>
             </div>

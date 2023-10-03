@@ -10,6 +10,7 @@ const client = new MongoClient(url);
 const dbName = 'Project';
 
 export interface classinformation {
+    _id?: any
     classcode: string
     date: string
     book: string

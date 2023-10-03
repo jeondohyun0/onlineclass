@@ -3,12 +3,6 @@
     import { onMount } from "svelte";
     import { user as Userstore } from "$lib/store";
     import { classcode as Code } from "$lib/store";
-    
-    import type { PageServerData } from "./$types";
-    import { goto } from "$app/navigation";
-   // export let data: PageServerData;
-    
-    //let classplus = data.student;
 
     let classplus: classplus[] = []
 
