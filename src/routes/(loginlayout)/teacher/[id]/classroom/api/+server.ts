@@ -1,8 +1,6 @@
 import db, { type classplus } from '$lib/DB';
 import type { RequestHandler } from '../api/$types';
 
-import { ObjectId } from 'mongodb';
-
 export const POST: RequestHandler = async ({ request }) => {
     try {
         const requestBody = await request.json();

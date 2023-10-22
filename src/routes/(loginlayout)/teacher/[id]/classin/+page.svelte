@@ -40,7 +40,7 @@
         let S = stime ? stime.toString() : "";
         let E = etime ? etime.toString() : "";
         if (D === "") {
-            errmsg = "제출일을 선택해주세요";
+            errmsg = "날짜를 선택해주세요";
         } else if (B === "") {
             errmsg = "교재를 선택해주세요";
         } else if (D === "" || E === "") {
@@ -137,7 +137,7 @@
                         />
                     </div>
                 </div>
-                <div>{errmsg}</div>
+                <div style="color: red;">{errmsg}</div>
             </div>
         {/if}
         {#each classinformation as c}

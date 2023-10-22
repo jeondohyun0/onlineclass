@@ -34,5 +34,12 @@ export interface classplus {
     sname?: string
 }
 
+export interface chatting {
+    classcode: string
+    text: string
+    time: string
+    side: string
+}
+
 await client.connect();
 export default client.db(dbName);
