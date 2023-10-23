@@ -48,25 +48,31 @@
             }
         );
         premessages = await res.json();
-        console.log(premessages);
     };
 
-    const storechat = async (msg:string, t:string) => {
+    const storechat = async (msg: string, t: string) => {
         let M = msg;
         let C = $Code.code;
-        let T = t
-        console.log(M, C);
+        let T = t;
         const res = await fetch(
-                `/student/${$Userstore.email}/classroom/chat/api2`,
-                {
-                    method: "POST",
-                    body: JSON.stringify([M, C, T]),
-                    headers: {
-                        "content-type": "application/json",
-                    },
-                }
-            );
+            `/student/${$Userstore.email}/classroom/chat/api2`,
+            {
+                method: "POST",
+                body: JSON.stringify([M, C, T]),
+                headers: {
+                    "content-type": "application/json",
+                },
+            }
+        );
+    };
+
+    interface sendid {
+        id: string;
+        classcode: string;
+        loc: string;
     }
+    let ID: sendid;
+    let connect = false;
 
     onMount(async () => {
         if ($Userstore.email) {
@@ -76,15 +82,49 @@
         }
         const Peer = (await import("peerjs")).default;
         peer = new Peer();
+        const ws = new WebSocket("ws://0nlineclass.kro.kr:3000/");
 
-        init();
-    });
-
-    const init = () => {
         peer.on("open", function (id) {
-            peerId = `ID:${id}`;
+            peerId = id;
             status = "Awaiting connection...";
-            console.log(peerId);
+
+            ID = {
+                id: peerId,
+                classcode: $Code.code,
+                loc: "chattingroom",
+            };
+            ws.send(JSON.stringify(ID));
+        });
+
+        ws.addEventListener("message", (ev) => {
+            /** @type {{type: string, message:string, user:number}} */
+            const json = JSON.parse(ev.data);
+            if (json.type === "message") {
+                const message = JSON.parse(json.message);
+                if (message.classcode !== $Code.code) {
+                    return;
+                }
+                if (message.loc !== "chattingroom") {
+                    return;
+                }
+                if (message.id === (peerId || remoteId)) {
+                    return;
+                }
+                if (remoteId === "") {
+                    remoteId = message.id;
+                    console.log(remoteId);
+                }
+                if (!connect) {
+                    connect = true;
+                    ws.send(JSON.stringify(ID));
+                }
+                join();
+            } else if (json.type === "close") {
+                if (remoteId !== "") {
+                    connect = false;
+                    remoteId = "";
+                }
+            }
         });
 
         peer.on("connection", function (con2) {
@@ -115,7 +155,7 @@
         peer.on("error", (err) => {
             alert(err);
         });
-    };
+    });
 
     const ready = () => {
         conn!.on("data", (data: any) => {
@@ -134,7 +174,7 @@
         }
         conn = peer!.connect(remoteId);
 
-        ready(); // 추가된 줄
+        ready();
     };
 
     const addMessage = (msg: string, side: string) => {
@@ -146,7 +186,7 @@
         let hString: string = h < 10 ? "0" + h : h.toString();
         let mString: string = m < 10 ? "0" + m : m.toString();
         let sString: string = s < 10 ? "0" + s : s.toString();
-        let t = `${hString}:${mString}:${sString}`
+        let t = `${hString}:${mString}:${sString}`;
 
         storechat(msg, t);
 
@@ -168,9 +208,7 @@
             if (conn && conn.open) {
                 conn.send(msg);
             }
-            
         }
-     
     };
 </script>
 
@@ -233,8 +271,8 @@
         <img src="/classroom/chat/send.png" id="send" alt="send" />
     </button>
 </div>
-<input type="text" bind:value={remoteId} placeholder="input the id" />
-<button type="button" class="btn btn-primary" on:click={join}>Connect</button>
+<div>my id {peerId}</div>
+<div>opp id {remoteId}</div>
 
 <style>
     .box-chat {
@@ -318,3 +356,4 @@
     }
     /*오른쪽*/
 </style>
+
