@@ -76,7 +76,7 @@
                         : ""}
                 >
                     <a
-                        href="/teacher/${$Userstore.email}/classroom{url}"
+                        href="/teacher/{$Userstore.email}/classroom{url}"
                         style="text-decoration: none; color: #836666;"
                     >
                         <div style="width: auto;">{name}</div>

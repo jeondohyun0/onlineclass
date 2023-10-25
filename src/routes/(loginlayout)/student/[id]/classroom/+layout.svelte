@@ -27,9 +27,11 @@
     <table>
         <tr>
             {#each urlInfo as { url, name}}
-                <td class={pathname === `/student/${$Userstore.email}/classroom${url}` ? 'active' : ''}>
+                <td class={pathname === `/student/${$Userstore.email}/classroom${url}` ? 'active' : ''} on:click={() => {
+                    console.log(`/student/${$Userstore.email}/classroom${url}`)
+                }}>
                     <a
-                        href="/student/${$Userstore.email}/classroom{url}"
+                        href="/student/{$Userstore.email}/classroom{url}"
                         style="text-decoration: none; color: #836666;"
                     >
                         <div style="width: auto;">{name}</div>

@@ -4,6 +4,8 @@
   import type { MediaConnection } from "peerjs";
   import type { DataConnection } from "peerjs";
   import { user as Userstore } from "$lib/store";
+  import { classcode as Code } from "$lib/store";
+  import { goto } from "$app/navigation";
 
   let peerId: string = "";
   let remotePeerIdValue: string = "";
@@ -559,14 +561,63 @@
       }
     }
   });
+  let ws: WebSocket | undefined;
 
   onMount(async () => {
     const Peer = (await import("peerjs")).default;
     peer = new Peer();
+    ws = new WebSocket("ws://0nlineclass.kro.kr:3000/");
 
     peer.on("open", (id) => {
       peerId = id;
       console.log(peerId);
+
+      ID = {
+        id: peerId,
+        classcode: $Code.code,
+        loc: "classserver",
+      };
+      if (ws) {
+        ws.send(JSON.stringify(ID));
+        ws.addEventListener("message", (ev) => {
+          /** @type {{type: string, message:string, user:number}} */
+          const json = JSON.parse(ev.data);
+          if (json.type === "message") {
+            const message = JSON.parse(json.message);
+            if (message.classcode !== $Code.code) {
+              return;
+            }
+            if (message.loc !== "classserver") {
+              return;
+            }
+            if (message.job === "teacher") {
+              return;
+            }
+            if (message.id === (peerId || remotePeerIdValue)) {
+              return;
+            }
+            if (remotePeerIdValue === "") {
+                remotePeerIdValue = message.id;
+            }
+            if (!connect) {
+              connect = true;
+              ws!.send(JSON.stringify(ID));
+            }
+            join();
+          } else if (json.type === "close") {
+            if (remotePeerIdValue !== "") {
+              connect = false;
+              remotePeerIdValue = "";
+              if (ctx2) {
+                ctx2.clearRect(0, 0, ctx2.canvas.width, ctx2.canvas.height);
+              }
+              if (ctx4) {
+                ctx4.clearRect(0, 0, ctx4.canvas.width, ctx4.canvas.height);
+              }
+            }
+          }
+        });
+      }
       Screenreceive();
       Videoreceive();
       Audioreceive();
@@ -576,6 +627,7 @@
 
     peer.on("connection", (incomingConn) => {
       incomingConn.on("data", (data: any) => {
+        console.log(data);
         if (typeof data === "string") {
           if (data === "screendel" && ctx2) {
             ctx2.clearRect(0, 0, ctx2.canvas.width, ctx2.canvas.height);
@@ -586,6 +638,25 @@
       });
     });
   });
+
+  interface sendid {
+    id: string;
+    classcode: string;
+    loc: string;
+  }
+
+  let ID: sendid;
+  let connect = false;
+
+  const exit = () => {
+    ScreenstopSharing();
+    VideostopSharing();
+
+    if (ws) {
+      ws.close();
+    }
+    goto(`/teacher/${$Userstore.email}/classroom/class`);
+  };
 </script>
 
 <div class="container">
@@ -654,9 +725,7 @@
     {:else}
       <div style="width: 170px;" />
     {/if}
-    <a href="/teacher/${$Userstore.email}/classroom/class">
-      <img src="/classserver/exit.png" id="exit" alt="exit" />
-    </a>
+    <img src="/classserver/exit.png" id="exit" alt="exit" on:click={exit} />
   </div>
   <hr />
   <div class="classroom">
@@ -693,9 +762,10 @@
     />
   </div>
 </div>
-<input type="text" bind:value={remotePeerIdValue} />
-<button on:click={join}>connect</button>
-{peerId}
+<br />
+My ID : {peerId}
+<br />
+Opp ID : {remotePeerIdValue}
 
 <style>
   .container {
@@ -743,12 +813,13 @@
     height: 45px;
   }
   .videoshareroom {
+    border: 1px solid black;
     width: 400px;
     height: 124px;
     margin: auto;
     height: 125px;
     display: flex;
-    margin-top: 436px;
+    margin-top: 438px;
   }
   .screenshareroom {
     width: 520px;
