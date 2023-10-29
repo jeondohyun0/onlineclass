@@ -15,7 +15,6 @@
                 }
             });
             homework = await res.json();
-            console.log(homework)
         } else {
             console.error("User email is not defined");
         }

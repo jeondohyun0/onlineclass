@@ -590,14 +590,11 @@
             if (message.loc !== "classserver") {
               return;
             }
-            if (message.job === "teacher") {
-              return;
-            }
             if (message.id === (peerId || remotePeerIdValue)) {
               return;
             }
             if (remotePeerIdValue === "") {
-                remotePeerIdValue = message.id;
+              remotePeerIdValue = message.id;
             }
             if (!connect) {
               connect = true;
@@ -651,9 +648,18 @@
   const exit = () => {
     ScreenstopSharing();
     VideostopSharing();
-
+    AudiostopSharing();
     if (ws) {
       ws.close();
+    }
+    if (canvasconn) {
+      canvasconn.close();
+    }
+    if (videoconn) {
+      videoconn.close();
+    }
+    if (screenconn) {
+      screenconn.close();
     }
     goto(`/teacher/${$Userstore.email}/classroom/class`);
   };

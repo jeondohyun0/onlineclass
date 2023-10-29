@@ -590,9 +590,6 @@
             if (message.loc !== "classserver") {
               return;
             }
-            if (message.job === "student") {
-              return;
-            }
             if (message.id === (peerId || remotePeerIdValue)) {
               return;
             }
@@ -651,9 +648,18 @@
   const exit = () => {
     ScreenstopSharing();
     VideostopSharing();
-    AudiostartShare();
+    AudiostopSharing();
     if (ws) {
       ws.close();
+    }
+    if (canvasconn) {
+      canvasconn.close();
+    }
+    if (videoconn) {
+      videoconn.close();
+    }
+    if (screenconn) {
+      screenconn.close();
     }
     goto(`/student/${$Userstore.email}/classroom/class`);
   };

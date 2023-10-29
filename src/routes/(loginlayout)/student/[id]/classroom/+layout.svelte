@@ -1,23 +1,29 @@
 <script lang="ts">
-    import { page } from '$app/stores';
-    import { classcode as Code } from '$lib/store';
-    import { user as Userstore } from '$lib/store';
-    $:pathname = $page.url.pathname;
+    import { page } from "$app/stores";
+    import { classcode as Code } from "$lib/store";
+    import { user as Userstore } from "$lib/store";
+    $: pathname = $page.url.pathname;
     const urlInfo = [
-        { url: "/class", name:"수업"},
-        { url: "/chat", name:"채팅"},
-        { url: "/manage", name:"수업 관리"}
-    ]
+        { url: "/class", name: "수업" },
+        { url: "/chat", name: "채팅" },
+        { url: "/manage", name: "수업 관리" },
+    ];
+    let ws: WebSocket | undefined;
+    const exit = (url: string) => (event: MouseEvent) => {
+        if (url !== "/chat") {
+            console.log(url);
+            ws!.close();
+        } else {
+            ws = new WebSocket("ws://0nlineclass.kro.kr:3000/");
+        }
+    };
 </script>
+
 <div class="container">
     <div class="box-head">
         <a href="/student/${$Userstore.email}/home">
             <img
                 src="/classroom/class/home.png"
-                on:click={() => {
-                    $Code.code = '';
-                    console.log($Code.code)
-                }}
                 alt="home"
                 id="home"
                 style="height: 40px; margin: 5px auto"
@@ -26,15 +32,20 @@
     </div>
     <table>
         <tr>
-            {#each urlInfo as { url, name}}
-                <td class={pathname === `/student/${$Userstore.email}/classroom${url}` ? 'active' : ''} on:click={() => {
-                    console.log(`/student/${$Userstore.email}/classroom${url}`)
-                }}>
+            {#each urlInfo as { url, name }}
+                <td
+                    class={pathname ===
+                    `/student/${$Userstore.email}/classroom${url}`
+                        ? "active"
+                        : ""}
+                >
                     <a
                         href="/student/{$Userstore.email}/classroom{url}"
                         style="text-decoration: none; color: #836666;"
                     >
-                        <div style="width: auto;">{name}</div>
+                        <div style="width: auto;" on:click={exit(url)}>
+                            {name}
+                        </div>
                     </a>
                 </td>
             {/each}
@@ -67,7 +78,7 @@
         padding: 10px 0;
         width: 120px;
     }
-    .active{
-        background-color: #E4DCDC;
+    .active {
+        background-color: #e4dcdc;
     }
 </style>

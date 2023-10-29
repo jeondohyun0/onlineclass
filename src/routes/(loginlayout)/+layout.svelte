@@ -56,14 +56,6 @@
 </script>
 {#if curUser}
     <slot />
-    <div class="logoutbutton">
-        {#if state}
-        <button class="logout" on:click={async () => logout(firebaseConfig)}>로그아웃</button>
-        {:else}
-        <div style="width: 300px;"></div>
-        {/if}
-        <img class="profile" src="{$Userstore.photoaddress}" alt="account" id="account" on:click={logoutb}>
-    </div>
 {:else}
     <div>로딩 중...</div>
 {/if}

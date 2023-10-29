@@ -3,6 +3,7 @@
     import { page } from "$app/stores";
     import { user as Userstore } from "$lib/store";
     import { goto } from "$app/navigation";
+
     $: pathname = $page.url.pathname;
     const urlInfo = [
         { url: "/class", name: "수업" },
@@ -17,24 +18,33 @@
     };
 
     const del = async () => {
-        let C  = $Code.code;
+        let C = $Code.code;
         console.log("C");
-        const res = await fetch(
-            `/teacher/${$Userstore.email}/classroom/api`,
-            {
-                method: "POST",
-                body: JSON.stringify(C),
-                headers: {
-                    "content-type": "application/json",
-                },
-            }
-        );
+        const res = await fetch(`/teacher/${$Userstore.email}/classroom/api`, {
+            method: "POST",
+            body: JSON.stringify(C),
+            headers: {
+                "content-type": "application/json",
+            },
+        });
         goto(`/teacher/${$Userstore.email}/home`);
     };
 
     const cancel = () => {
         mstate = false;
     };
+    const exit = (url: string) => (event: MouseEvent) => {
+        if (url !== "/chat") {
+            console.log(url);
+            ws!.close();
+        } else {
+            ws = new WebSocket("ws://0nlineclass.kro.kr:3000/");
+        }
+    };
+    const go = () => {
+        ws!.close();
+    }
+    let ws: WebSocket | undefined;
 </script>
 
 <div class="container">
@@ -42,13 +52,10 @@
         <a href="/teacher/${$Userstore.email}/home">
             <img
                 src="/classroom/class/home.png"
-                on:click={() => {
-                    $Code.code = "";
-                    console.log($Code.code);
-                }}
                 alt="home"
                 id="home"
                 style="height: 40px; margin: 5px auto"
+                on:click={go}
             />
         </a>
         {#if mstate}
@@ -79,7 +86,9 @@
                         href="/teacher/{$Userstore.email}/classroom{url}"
                         style="text-decoration: none; color: #836666;"
                     >
-                        <div style="width: auto;">{name}</div>
+                        <div style="width: auto;" on:click={exit(url)}>
+                            {name}
+                        </div>
                     </a>
                 </td>
             {/each}

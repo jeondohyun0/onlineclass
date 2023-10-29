@@ -92,7 +92,7 @@
 
 <div class="container">
     <div class="box-head">
-        <a href="/teacher/${$Userstore.email}/classroom/manage">
+        <a href="/teacher/{$Userstore.email}/classroom/manage">
             <img
                 src="/classin/before.png"
                 alt="before"

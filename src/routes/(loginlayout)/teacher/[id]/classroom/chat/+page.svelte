@@ -73,6 +73,7 @@
     }
     let ID: sendid;
     let connect = false;
+    let ws: WebSocket | undefined;
 
     onMount(async () => {
         if ($Userstore.email) {
@@ -82,7 +83,7 @@
         }
         const Peer = (await import("peerjs")).default;
         peer = new Peer();
-        const ws = new WebSocket("ws://0nlineclass.kro.kr:3000/");
+        ws = new WebSocket("ws://0nlineclass.kro.kr:3000/");
 
         peer.on("open", function (id) {
             peerId = id;
@@ -93,44 +94,50 @@
                 classcode: $Code.code,
                 loc: "chattingroom",
             };
-            ws.send(JSON.stringify(ID));
-        });
-
-        ws.addEventListener("message", (ev) => {
-            /** @type {{type: string, message:string, user:number}} */
-            const json = JSON.parse(ev.data);
-            if (json.type === "message") {
-                const message = JSON.parse(json.message);
-                if (message.classcode !== $Code.code) {
-                    return;
-                }
-                if (message.loc !== "chattingroom") {
-                    return;
-                }
-                if (message.id === (peerId || remoteId)) {
-                    return;
-                }
-                if (remoteId === "") {
-                    remoteId = message.id;
-                    console.log(remoteId);
-                }
-                if (!connect) {
-                    connect = true;
-                    ws.send(JSON.stringify(ID));
-                }
-                join();
-            } else if (json.type === "close") {
-                if (remoteId !== "") {
-                    connect = false;
-                    remoteId = "";
-                }
+            if (ws) {
+                ws.send(JSON.stringify(ID));
+                ws.addEventListener("message", (ev) => {
+                    /** @type {{type: string, message:string, user:number}} */
+                    const json = JSON.parse(ev.data);
+                    console.log(json);
+                    if (json.type === "message") {
+                        const message = JSON.parse(json.message);
+                        if (message.classcode !== $Code.code) {
+                            return;
+                        }
+                        if (message.loc !== "chattingroom") {
+                            return;
+                        }
+                        if (message.id === (peerId || remoteId)) {
+                            return;
+                        }
+                        if (remoteId === "") {
+                            remoteId = message.id;
+                            console.log(remoteId);
+                        }
+                        if (!connect) {
+                            connect = true;
+                            ws!.send(JSON.stringify(ID));
+                            join();
+                        }
+                        
+                    } else if (json.type === "close") {
+                        if (remoteId !== "") {
+                            connect = false;
+                            remoteId = "";
+                            if(conn) {
+                                conn.close();
+                            }
+                        }
+                    }
+                });
             }
         });
 
         peer.on("connection", function (con2) {
             if (conn && conn.open) {
                 con2.on("open", function () {
-                    con2.send("Already connected to another client");
+                    
                     setTimeout(function () {
                         con2.close();
                     }, 500);
@@ -159,7 +166,7 @@
 
     const ready = () => {
         conn!.on("data", (data: any) => {
-            if (typeof data === "string") addMessage(data, "left");
+            if (typeof data === "string") addMessage(data, "left", 's');
         });
 
         conn!.on("close", () => {
@@ -177,7 +184,7 @@
         ready();
     };
 
-    const addMessage = (msg: string, side: string) => {
+    const addMessage = (msg: string, side: string, job: string) => {
         let now = new Date();
         let h: number = now.getHours();
         let m: number = now.getMinutes();
@@ -187,8 +194,10 @@
         let mString: string = m < 10 ? "0" + m : m.toString();
         let sString: string = s < 10 ? "0" + s : s.toString();
         let t = `${hString}:${mString}:${sString}`;
-
-        storechat(msg, t);
+        if(job === 't') {
+            storechat(msg, t);
+        }
+        
 
         messages = [
             ...messages,
@@ -204,7 +213,7 @@
         let msg = sendMessageBox;
         if (msg !== "") {
             sendMessageBox = "";
-            addMessage(msg, "right");
+            addMessage(msg, "right", 't');
             if (conn && conn.open) {
                 conn.send(msg);
             }
@@ -226,7 +235,7 @@
             </div>
         {:else}
             <div class="container-message-left">
-                <div class="name">name</div>
+                <div class="name">학생</div>
                 <div class="chattime">
                     <div class="content-chat-left">
                         <div class="message-left">{message.text}</div>
@@ -251,7 +260,7 @@
             </div>
         {:else}
             <div class="container-message-left">
-                <div class="name">name</div>
+                <div class="name">학생</div>
                 <div class="chattime">
                     <div class="content-chat-left">
                         <div class="message-left">{message.text}</div>
@@ -356,4 +365,3 @@
     }
     /*오른쪽*/
 </style>
-
