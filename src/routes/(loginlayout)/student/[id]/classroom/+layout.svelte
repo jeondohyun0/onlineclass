@@ -11,12 +11,19 @@
     let ws: WebSocket | undefined;
     const exit = (url: string) => (event: MouseEvent) => {
         if (url !== "/chat") {
-            console.log(url);
-            ws!.close();
+            if(ws) {
+                ws.close();
+            }
         } else {
             ws = new WebSocket("ws://0nlineclass.kro.kr:3000/");
         }
     };
+
+    const go = () => {
+        if(ws) {
+            ws.close()
+        }
+    }
 </script>
 
 <div class="container">
@@ -27,6 +34,7 @@
                 alt="home"
                 id="home"
                 style="height: 40px; margin: 5px auto"
+                on:click={go}
             />
         </a>
     </div>

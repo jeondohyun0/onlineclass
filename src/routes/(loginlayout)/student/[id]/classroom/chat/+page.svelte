@@ -65,7 +65,6 @@
             }
         );
     };
-
     interface sendid {
         id: string;
         classcode: string;
@@ -111,6 +110,7 @@
                             return;
                         }
                         if (remoteId === "") {
+                            console.log(message)
                             remoteId = message.id;
                         }
                         if (!connect) {

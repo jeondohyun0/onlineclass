@@ -74,7 +74,6 @@
     let ID: sendid;
     let connect = false;
     let ws: WebSocket | undefined;
-
     onMount(async () => {
         if ($Userstore.email) {
             show();
@@ -99,7 +98,6 @@
                 ws.addEventListener("message", (ev) => {
                     /** @type {{type: string, message:string, user:number}} */
                     const json = JSON.parse(ev.data);
-                    console.log(json);
                     if (json.type === "message") {
                         const message = JSON.parse(json.message);
                         if (message.classcode !== $Code.code) {
@@ -113,7 +111,6 @@
                         }
                         if (remoteId === "") {
                             remoteId = message.id;
-                            console.log(remoteId);
                         }
                         if (!connect) {
                             connect = true;
@@ -208,7 +205,6 @@
             },
         ];
     };
-
     const sendMessage = () => {
         let msg = sendMessageBox;
         if (msg !== "") {

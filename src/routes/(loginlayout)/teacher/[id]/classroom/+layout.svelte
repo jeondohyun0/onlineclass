@@ -35,15 +35,18 @@
     };
     const exit = (url: string) => (event: MouseEvent) => {
         if (url !== "/chat") {
-            console.log(url);
-            ws!.close();
+            if (ws) {
+                ws.close();
+            }
         } else {
             ws = new WebSocket("ws://0nlineclass.kro.kr:3000/");
         }
     };
     const go = () => {
-        ws!.close();
-    }
+        if (ws) {
+            ws.close();
+        }
+    };
     let ws: WebSocket | undefined;
 </script>
 

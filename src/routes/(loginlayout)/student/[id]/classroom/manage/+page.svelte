@@ -4,7 +4,7 @@
     import { onMount } from "svelte";
     import { classcode as Code } from "$lib/store";
     let homework: homework[] = [];
-
+    
     onMount(async () => {
         if ($Userstore.email) {
             const res = await fetch(`/student/${$Userstore.email}/classroom/manage/api`, {

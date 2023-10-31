@@ -17,6 +17,7 @@
 
     const pluscontent = () => {
         state = true;
+        errmsg = '';
     };
     const delcontent = () => {
         state = false;
