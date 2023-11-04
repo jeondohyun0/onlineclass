@@ -12,7 +12,7 @@
         side: string;
         time: string;
     }
-    
+
     let peer: Peer;
     let conn: DataConnection | null = null;
 
@@ -110,7 +110,7 @@
                             return;
                         }
                         if (remoteId === "") {
-                            console.log(message)
+                            console.log(message);
                             remoteId = message.id;
                         }
                         if (!connect) {
@@ -118,12 +118,11 @@
                             ws!.send(JSON.stringify(ID));
                             join();
                         }
-                        
                     } else if (json.type === "close") {
                         if (remoteId !== "") {
                             connect = false;
                             remoteId = "";
-                            if(conn) {
+                            if (conn) {
                                 conn.close();
                             }
                         }
@@ -163,7 +162,7 @@
 
     const ready = () => {
         conn!.on("data", (data: any) => {
-            if (typeof data === "string") addMessage(data, "left", 't');
+            if (typeof data === "string") addMessage(data, "left", "t");
         });
 
         conn!.on("close", () => {
@@ -191,7 +190,7 @@
         let mString: string = m < 10 ? "0" + m : m.toString();
         let sString: string = s < 10 ? "0" + s : s.toString();
         let t = `${hString}:${mString}:${sString}`;
-        if(job === 's') {
+        if (job === "s") {
             storechat(msg, t);
         }
 
@@ -209,7 +208,7 @@
         let msg = sendMessageBox;
         if (msg !== "") {
             sendMessageBox = "";
-            addMessage(msg, "right", 's');
+            addMessage(msg, "right", "s");
             if (conn && conn.open) {
                 conn.send(msg);
             }
@@ -270,14 +269,12 @@
     {/each}
 </div>
 <div class="box-chat">
-    <img src="/classroom/chat/plus.png" id="plus" alt="plus" />
+    <div />
     <input type="text" bind:value={sendMessageBox} />
     <button on:click={sendMessage} id="plus">
         <img src="/classroom/chat/send.png" id="send" alt="send" />
     </button>
 </div>
-<div>my id {peerId}</div>
-<div>opp id {remoteId}</div>
 
 <style>
     .box-chat {

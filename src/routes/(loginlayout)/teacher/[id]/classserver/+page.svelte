@@ -768,11 +768,6 @@
     />
   </div>
 </div>
-<br />
-My ID : {peerId}
-<br />
-Opp ID : {remotePeerIdValue}
-
 <style>
   .container {
     margin: auto;

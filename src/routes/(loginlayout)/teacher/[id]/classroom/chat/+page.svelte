@@ -270,14 +270,13 @@
     {/each}
 </div>
 <div class="box-chat">
-    <img src="/classroom/chat/plus.png" id="plus" alt="plus" />
+    <div></div>
     <input type="text" bind:value={sendMessageBox} />
     <button on:click={sendMessage} id="plus">
         <img src="/classroom/chat/send.png" id="send" alt="send" />
     </button>
 </div>
-<div>my id {peerId}</div>
-<div>opp id {remoteId}</div>
+
 
 <style>
     .box-chat {

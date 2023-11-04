@@ -8,10 +8,10 @@
     let errmsg = "";
 
     const check = async () => {
-        if (input1 !== input2) {
-            errmsg = "수업 코드가 서로 일치하지 않습니다.";
-        } else if (input1.length < 7 || input2.length < 7) {
+        if (input1.length < 7 || input2.length < 7) {
             errmsg = "수업 코드를 7자 이상 입력해주세요.";
+        } else if (input1 !== input2) {
+            errmsg = "수업 코드가 서로 일치하지 않습니다.";
         } else {
             let n = $Userstore.name;
             let e = $Userstore.email;
